@@ -9,15 +9,30 @@ Landing page do **Workshop de Estética Avançada** (João Pessoa/PB), realizado
 ## Estrutura
 
 ```
-index.html              markup, SEO (meta tags, Open Graph, JSON-LD Event)
-assets/css/styles.css   design system completo
-assets/js/main.js       menu mobile, scroll suave, reveal, CTA fixo
+index.html                        markup, SEO (meta tags, Open Graph, JSON-LD Event)
+assets/css/styles.css             design system completo
+assets/js/main.js                 menu mobile, scroll suave, reveal, CTA fixo
+
+workshop-estetica-avancada.html   versão de arquivo único (gerada)
+build-single.py                   gera a versão de arquivo único
 ```
 
-Site estático, sem build e sem dependências. Para visualizar localmente:
+Site estático, sem dependências. Para visualizar localmente:
 
 ```bash
 python3 -m http.server 8000
+```
+
+## Versão de arquivo único
+
+`workshop-estetica-avancada.html` é a mesma página com CSS e JS embutidos —
+abre com dois cliques e pode ser hospedada sozinha, sem estrutura de pastas.
+
+É um arquivo **gerado**: edite sempre `index.html`, `styles.css` e `main.js`,
+e depois regenere com:
+
+```bash
+python3 build-single.py
 ```
 
 ## Identidade

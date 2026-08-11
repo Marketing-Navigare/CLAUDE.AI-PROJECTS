@@ -40,29 +40,45 @@ uma barra fixa que aparece no mobile após o hero.
 
 ## ⚠️ Antes de publicar
 
-### 1. Fotografias
+### 1. Fotografia
 
-**Composição do hero e do encerramento** — a imagem recortada com as duas ministrantes:
-
-```
-assets/img/ministrantes.png    (PNG com fundo transparente, ~636×1210)
-```
-
-**Cards das mentoras** — um retrato individual para cada:
+A página inteira usa **um único arquivo** — a composição recortada com as duas
+ministrantes, em PNG com fundo transparente:
 
 ```
-assets/img/cecilia-luane.webp
-assets/img/carol-alves.webp
+assets/img/ministrantes.png    (~636 × 1210)
 ```
 
-Enquanto os arquivos não existirem, a página exibe placeholders na mesma paleta
-(`ministrantes-placeholder.svg`, `retrato-cecilia.svg`, `retrato-carol.svg`).
-Basta salvar as imagens com esses nomes — nenhuma alteração de código é necessária.
+Ele alimenta três lugares: a composição do hero, o enquadramento fechado do
+encerramento e os dois cards das mentoras (cada card mostra um recorte diferente
+do mesmo arquivo). Enquanto o arquivo não existir, a página exibe
+`ministrantes-placeholder.svg` na mesma paleta.
 
-Recomendações para os retratos individuais: vertical (proporção 3:4), rosto no terço
-superior, fundo neutro ou recortado, WebP com largura mínima de 1200 px. As duas fotos
-devem ter enquadramento e tratamento equivalentes — nenhuma ministrante deve parecer
-mais importante que a outra.
+**Se as proporções do arquivo final forem diferentes**, ajuste o recorte dos cards
+direto no `index.html` — são três números por card, em fração da imagem:
+
+```html
+<!-- Drª Cecília Luane — figura em primeiro plano, de verde -->
+<div class="mentor-photo mentor-photo--crop" style="--rx:.40; --ry:.28; --rw:.53">
+
+<!-- Drª Carol Alves — figura ao fundo, de branco -->
+<div class="mentor-photo mentor-photo--crop" style="--rx:.07; --ry:0; --rw:.53">
+```
+
+| Variável | Significado |
+|---|---|
+| `--rx` | borda esquerda da região, em fração da largura |
+| `--ry` | borda superior da região, em fração da altura |
+| `--rw` | largura da região, em fração da largura |
+
+A altura visível decorre da proporção do card. O `--rw` é igual nos dois para que as
+duas apareçam na mesma escala. Como as ministrantes se sobrepõem na composição, o card
+da Drª Cecília mostra uma faixa estreita da colega na borda esquerda — aumentar `--rx`
+reduz essa faixa, ao custo de descentralizar o rosto.
+
+Se um dia houver retratos individuais em alta resolução, o resultado nos cards fica
+mais nítido: troque o `src` das duas imagens da seção de mentoras e remova a classe
+`mentor-photo--crop` junto com o `style` do recorte.
 
 ### 2. Pendências menores
 

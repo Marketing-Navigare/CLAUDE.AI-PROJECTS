@@ -768,7 +768,7 @@ p { text-wrap: pretty; }
 
 .mentor-photo {
   position: relative;
-  aspect-ratio: 4 / 3.4;
+  aspect-ratio: 4 / 4.4;
   overflow: hidden;
   background:
     radial-gradient(70% 70% at 50% 25%, rgba(210, 173, 130, .5), var(--cream));
@@ -778,6 +778,22 @@ p { text-wrap: pretty; }
   object-fit: cover;
   object-position: 50% 22%;
   filter: sepia(.22) saturate(.95) contrast(1.02);
+}
+
+/* Recorte de uma região da composição única.
+   --rx/--ry = canto superior esquerdo da região (fração da imagem)
+   --rw      = largura da região (fração da imagem)
+   A altura visível decorre da proporção do card. */
+.mentor-photo--crop img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(100% / var(--rw, 1));
+  height: auto;
+  max-width: none;   /* o recorte precisa ultrapassar a caixa */
+  object-fit: fill;
+  transform: translate(calc(var(--rx, 0) * -100%), calc(var(--ry, 0) * -100%));
+  filter: saturate(.95) contrast(1.02);
 }
 .mentor-photo::after {
   content: "";

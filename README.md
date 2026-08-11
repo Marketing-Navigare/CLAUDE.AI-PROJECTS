@@ -35,8 +35,9 @@ python3 -m http.server 8000
 4. **Contagem regressiva** — contador funcional até 20/08/2026 19h (`America/Fortaleza`).
 5. **CTA final** — recapitulação das informações e botão de inscrição.
 
-CTAs repetidos no cabeçalho, hero, aprendizados, mentoras, contagem, encerramento e em
-uma barra fixa que aparece no mobile após o hero.
+A página não tem cabeçalho nem rodapé: abre direto no hero e encerra no CTA final.
+Os CTAs se repetem no hero, aprendizados, mentoras, contagem e encerramento, mais uma
+barra fixa que aparece no mobile depois do hero.
 
 ## ⚠️ Antes de publicar
 
@@ -84,13 +85,14 @@ mais nítido: troque o `src` das duas imagens da seção de mentoras e remova a 
 
 - **Imagem social** — gerar `assets/img/og-workshop.jpg` (1200×630) e conferir a URL
   canônica em `index.html`.
-- **Logotipo da Navigare** — hoje é um monograma tipográfico (`.logo-mark` / `.logo-word`).
-- **Links do rodapé** — Política de Privacidade, Termos de Uso e Instagram apontam para
-  caminhos genéricos.
+- **Logotipo da Navigare** — não aparece mais na página, que hoje não tem cabeçalho nem
+  rodapé. Se a marca precisar aparecer, o lugar natural é o topo do hero.
+- **Aviso de LGPD e links legais** — saíram junto com o rodapé. Se a inscrição passar a
+  coletar dados nesta página, eles precisam voltar.
 
 ## Inscrição
 
-Os oito CTAs abrem, em nova aba, o evento no Sympla:
+Os seis CTAs abrem, em nova aba, o evento no Sympla:
 
 ```
 https://www.sympla.com.br/evento/associacao-de-recursos-esteticos-para-potencializacao-de-resultados/3493821
@@ -117,8 +119,8 @@ Cada clique em CTA já dispara automaticamente:
 | `gtag` | `cta_click`, categoria `inscricao` |
 | `fbq` | `Lead` com `source` |
 
-O `cta_location` identifica a origem do clique: `header`, `hero`, `aprendizados`,
-`mentoras`, `contagem`, `final`, `rodape` ou `barra-mobile`.
+O `cta_location` identifica a origem do clique: `hero`, `aprendizados`, `mentoras`,
+`contagem`, `final` ou `barra-mobile`.
 
 Não há formulário na página: a inscrição acontece na plataforma externa.
 

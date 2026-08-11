@@ -163,15 +163,10 @@
   }
 
   /* ---------------------------------------------------------
-     6. Cabeçalho e barra fixa mobile
+     6. Barra fixa mobile
      --------------------------------------------------------- */
-  var topbar = document.getElementById("topbar");
   var barra = document.getElementById("sticky-cta");
   var hero = document.getElementById("topo");
-
-  window.addEventListener("scroll", function () {
-    if (topbar) { topbar.classList.toggle("is-stuck", window.scrollY > 12); }
-  }, { passive: true });
 
   if (barra && hero && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entradas) {
@@ -199,10 +194,4 @@
     });
     if (history.replaceState) { history.replaceState(null, "", id); }
   });
-
-  /* ---------------------------------------------------------
-     8. Ano no rodapé
-     --------------------------------------------------------- */
-  var ano = document.getElementById("ano");
-  if (ano) { ano.textContent = new Date().getFullYear(); }
 })();

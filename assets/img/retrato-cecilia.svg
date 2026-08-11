@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" width="720" height="960" role="img" aria-label="Retrato pendente — Drª Cecília Luane">
+  <defs>
+    <linearGradient id="c-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EED8BE"/>
+      <stop offset=".55" stop-color="#D2AD82"/>
+      <stop offset="1" stop-color="#B9782E"/>
+    </linearGradient>
+    <radialGradient id="c-glow" cx="52%" cy="34%" r="62%">
+      <stop offset="0" stop-color="#FFF9F1" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#FFF9F1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="c-fig" x1=".2" y1="0" x2=".8" y2="1">
+      <stop offset="0" stop-color="#4A2D1B" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#4A2D1B" stop-opacity=".22"/>
+    </linearGradient>
+    <pattern id="c-lat" width="52" height="52" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0H52M0 0V52" stroke="#A76B28" stroke-opacity=".16" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="720" height="960" fill="url(#c-bg)"/>
+  <rect width="720" height="960" fill="url(#c-lat)"/>
+  <rect width="720" height="960" fill="url(#c-glow)"/>
+
+  <g fill="none" stroke="#FFF9F1" stroke-opacity=".26" stroke-width="1.5">
+    <path d="M-20 700c150-80 250 40 400-40s180-60 360-120"/>
+    <path d="M-20 770c150-80 250 40 400-40s180-60 360-120"/>
+    <path d="M-20 840c150-80 250 40 400-40s180-60 360-120"/>
+  </g>
+
+  <g fill="url(#c-fig)">
+    <circle cx="360" cy="352" r="128"/>
+    <path d="M360 500c134 0 236 92 252 224 6 50 8 116 8 236H100c0-120 2-186 8-236 16-132 118-224 252-224Z"/>
+  </g>
+  <g fill="none" stroke="#4A2D1B" stroke-opacity=".22" stroke-width="1.5">
+    <circle cx="360" cy="352" r="152"/>
+    <circle cx="360" cy="352" r="182"/>
+  </g>
+
+  <g transform="translate(360 352)">
+    <text text-anchor="middle" y="18" font-family="Cormorant Garamond, Georgia, serif" font-size="104" font-weight="600" fill="#FFF9F1" fill-opacity=".9" letter-spacing="6">CL</text>
+  </g>
+
+  <g transform="translate(360 604)">
+    <rect x="-11" y="-11" width="22" height="22" rx="4" transform="rotate(45)" fill="none" stroke="#FFF9F1" stroke-opacity=".55"/>
+  </g>
+
+  <text x="360" y="676" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" letter-spacing="7" fill="#FFF9F1" fill-opacity=".82">DRª CECÍLIA LUANE</text>
+  <text x="360" y="710" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" letter-spacing="4" fill="#4A2D1B" fill-opacity=".55">FOTOGRAFIA PENDENTE</text>
+</svg>

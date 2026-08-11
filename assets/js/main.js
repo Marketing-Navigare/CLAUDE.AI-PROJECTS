@@ -10,10 +10,10 @@
      ⚠️  CONFIGURAÇÃO — edite apenas estas duas linhas
      ------------------------------------------------------- */
 
-  /* Link de inscrição (Sympla, Hotmart, formulário externo...).
-     Enquanto estiver vazio, os botões rolam até a seção final.
-     Ao preencher, TODOS os CTAs passam a apontar para cá. */
-  var LINK_INSCRICAO = "";
+  /* Link de inscrição. Enquanto estiver vazio, os botões rolam até a
+     seção final. Preenchido, TODOS os CTAs passam a apontar para cá. */
+  var LINK_INSCRICAO =
+    "https://www.sympla.com.br/evento/associacao-de-recursos-esteticos-para-potencializacao-de-resultados/3493821";
 
   /* Data e hora do evento — 20/08/2026, 19h, America/Fortaleza (UTC−03:00) */
   var DATA_EVENTO = "2026-08-20T19:00:00-03:00";

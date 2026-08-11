@@ -40,43 +40,49 @@ uma barra fixa que aparece no mobile após o hero.
 
 ## ⚠️ Antes de publicar
 
-### 1. Link de inscrição
+### 1. Fotografias
 
-Todos os botões apontam para a seção final enquanto o link não é definido.
-Edite **uma única linha** em `assets/js/main.js`:
+**Composição do hero e do encerramento** — a imagem recortada com as duas ministrantes:
 
-```js
-var LINK_INSCRICAO = "https://www.sympla.com.br/...";
+```
+assets/img/ministrantes.png    (PNG com fundo transparente, ~636×1210)
 ```
 
-Ao preencher, os oito CTAs passam a abrir esse endereço em nova aba
-(`target="_blank" rel="noopener noreferrer"`).
-
-### 2. Fotografias das ministrantes
-
-Coloque os arquivos exatamente com estes nomes:
+**Cards das mentoras** — um retrato individual para cada:
 
 ```
 assets/img/cecilia-luane.webp
 assets/img/carol-alves.webp
 ```
 
-Enquanto não existirem, a página exibe automaticamente um retrato-placeholder
-(`retrato-cecilia.svg` / `retrato-carol.svg`) na mesma paleta — nenhuma alteração de
-código é necessária ao substituí-los.
+Enquanto os arquivos não existirem, a página exibe placeholders na mesma paleta
+(`ministrantes-placeholder.svg`, `retrato-cecilia.svg`, `retrato-carol.svg`).
+Basta salvar as imagens com esses nomes — nenhuma alteração de código é necessária.
 
-Recomendações: retrato vertical (proporção 3:4), rosto no terço superior, fundo neutro
-ou recortado, exportado em WebP com largura mínima de 1200 px. As duas fotos devem ter
-enquadramento e tratamento equivalentes — nenhuma ministrante deve parecer mais
-importante que a outra.
+Recomendações para os retratos individuais: vertical (proporção 3:4), rosto no terço
+superior, fundo neutro ou recortado, WebP com largura mínima de 1200 px. As duas fotos
+devem ter enquadramento e tratamento equivalentes — nenhuma ministrante deve parecer
+mais importante que a outra.
 
-### 3. Pendências menores
+### 2. Pendências menores
 
 - **Imagem social** — gerar `assets/img/og-workshop.jpg` (1200×630) e conferir a URL
   canônica em `index.html`.
 - **Logotipo da Navigare** — hoje é um monograma tipográfico (`.logo-mark` / `.logo-word`).
 - **Links do rodapé** — Política de Privacidade, Termos de Uso e Instagram apontam para
   caminhos genéricos.
+
+## Inscrição
+
+Os oito CTAs abrem, em nova aba, o evento no Sympla:
+
+```
+https://www.sympla.com.br/evento/associacao-de-recursos-esteticos-para-potencializacao-de-resultados/3493821
+```
+
+O endereço aparece no `href` de cada botão (funciona sem JavaScript), no schema
+`EducationEvent` e na constante `LINK_INSCRICAO` de `assets/js/main.js`, que reescreve
+todos os CTAs de uma vez caso o link mude.
 
 ## Conversão e analytics
 

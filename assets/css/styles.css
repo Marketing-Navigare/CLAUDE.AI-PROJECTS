@@ -632,36 +632,30 @@ p { text-wrap: pretty; }
   opacity: .8;
 }
 
-.portrait {
+/* Composição recortada das duas ministrantes — sem moldura,
+   fundindo a base com o painel */
+.duo {
   position: absolute;
+  inset: 0;
+  z-index: 2;
   overflow: hidden;
-  filter: sepia(.24) saturate(.95) contrast(1.02) brightness(1.02);
 }
-.portrait img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: 50% 18%;
-}
-/* Fusão suave com o fundo — sem molduras rígidas */
-.portrait--fade {
-  -webkit-mask-image: radial-gradient(66% 72% at 50% 38%, #000 28%, rgba(0, 0, 0, .55) 64%, transparent 88%);
-  mask-image: radial-gradient(66% 72% at 50% 38%, #000 28%, rgba(0, 0, 0, .55) 64%, transparent 88%);
+.duo img {
+  width: 100%;
+  height: 108%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: saturate(.94) contrast(1.02) drop-shadow(0 28px 44px rgba(74, 45, 27, .20));
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 10%);
+  mask-image: linear-gradient(to top, transparent 0, #000 10%);
 }
 
-.portrait--front {
-  right: 0;
-  bottom: 0;
-  width: 62%;
-  height: 92%;
-  z-index: 2;
-}
-.portrait--back {
-  left: 2%;
-  bottom: 4%;
-  width: 47%;
-  height: 74%;
-  z-index: 1;
-  opacity: .92;
+/* Enquadramento mais fechado para o encerramento — não repete o hero */
+.duo--detail img {
+  height: 168%;
+  object-position: 50% 20%;
+  -webkit-mask-image: radial-gradient(76% 78% at 50% 40%, #000 52%, transparent 94%);
+  mask-image: radial-gradient(76% 78% at 50% 40%, #000 52%, transparent 94%);
 }
 
 .hero-visual .diamond-dot--a { top: 14%; left: 8%;  --d: 20px; }
@@ -965,17 +959,6 @@ p { text-wrap: pretty; }
     radial-gradient(65% 65% at 50% 40%, rgba(185, 120, 46, .28), transparent 70%),
     linear-gradient(200deg, rgba(210, 173, 130, .5), transparent);
 }
-.final-visual .portrait--a {
-  left: 0; top: 4%;
-  width: 56%; height: 68%;
-  z-index: 2;
-}
-.final-visual .portrait--b {
-  right: 2%; bottom: 0;
-  width: 54%; height: 66%;
-  z-index: 1;
-}
-.final-visual .portrait img { object-position: 50% 16%; }
 .final-visual .diamond-dot--a { top: 6%;  right: 16%; --d: 16px; }
 .final-visual .diamond-dot--b { bottom: 12%; left: 8%; --d: 11px; }
 
@@ -1150,27 +1133,21 @@ p { text-wrap: pretty; }
   .hero .shell { min-height: 0; }
 
   /* Mobile: fotos no topo, conteúdo abaixo */
+  /* Mobile: composição no topo, ocupando no máximo 42% da primeira dobra */
   .hero-visual {
     order: -1;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1 / 1.24;
     min-height: 0;
-    max-height: 40vh;
+    max-height: 42vh;
+    width: min(76%, 340px);
+    margin-inline: auto;
     margin-bottom: 8px;
   }
-  .hero-visual__glow { inset: 0 0 6% 0; }
-  .hero-visual__ring { inset: 6% 6% 10% 6%; }
+  .hero-visual__glow { inset: 0 -14% 4% -14%; }
+  .hero-visual__ring { inset: 4% -8% 8% -8%; }
 
-  /* Duas professoras em proporções iguais */
-  .portrait--front,
-  .portrait--back {
-    width: 48%;
-    height: 96%;
-    bottom: 0;
-    opacity: 1;
-  }
-  .portrait--front { right: 1%; }
-  .portrait--back  { left: 1%; }
-  .portrait img { object-position: 50% 14%; }
+  /* A composição inteira, com as duas ministrantes visíveis */
+  .duo img { height: 100%; }
 
   .hero-credit {
     position: static;
@@ -1190,7 +1167,12 @@ p { text-wrap: pretty; }
   .final-copy h2 { max-width: 22ch; }
   .final-facts { justify-items: center; }
   .final-facts li { justify-content: center; text-align: center; }
-  .final-visual { order: -1; aspect-ratio: 16 / 11; width: 100%; }
+  .final-visual {
+    order: -1;
+    aspect-ratio: 1 / 1.05;
+    width: min(74%, 330px);
+    margin-inline: auto;
+  }
 
   .mentor-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
   .mentor-card:hover { transform: none; }

@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Pós Logística Portuária e Direito Marítimo — Navigare</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #0d0d41;
+        --navy-90: rgba(13, 13, 65, 0.9);
+        --gold: #f6dc48;
+        --paper: #f6f4ec;
+        --ink-soft: #c9c9e6;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        font-family: Montserrat, sans-serif; color: var(--paper);
+      }
+      .shot { position: absolute; inset: 0; overflow: hidden; transform-origin: 50% 35%; }
+      .shot video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .vignette {
+        position: absolute; inset: 0; pointer-events: none;
+        background: radial-gradient(ellipse 120% 70% at 50% 45%, rgba(13,13,65,0) 55%, rgba(13,13,65,0.55) 100%);
+      }
+
+      /* ---------- graphics band (top) ---------- */
+      .gfx { position: absolute; left: 70px; right: 70px; top: 200px; }
+      .panel {
+        position: relative; background: var(--navy-90); padding: 36px 48px 40px;
+        border-radius: 6px; box-shadow: 0 24px 60px rgba(5, 5, 30, 0.45);
+      }
+      .tab { position: absolute; top: 0; left: 52px; width: 120px; height: 8px; background: var(--gold); }
+      .kicker {
+        font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 30px;
+        letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+      }
+
+      #hook .big { font-weight: 900; font-size: 250px; line-height: 0.9; color: var(--gold); letter-spacing: -0.04em; }
+      #hook .sub { font-weight: 700; font-size: 54px; line-height: 1.15; margin-top: 18px; letter-spacing: -0.01em; }
+
+      .chips { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 26px; }
+      .chip {
+        display: block; font-weight: 900; font-size: 46px; letter-spacing: 0.01em; text-transform: uppercase;
+        padding: 16px 26px; border: 4px solid var(--paper); border-radius: 4px; color: var(--paper);
+      }
+      #modal .chips { gap: 14px; margin-top: 20px; }
+      #modal .chip { font-size: 40px; padding: 12px 20px; }
+      #modal .kick2 { position: absolute; left: 48px; right: 48px; top: 36px; opacity: 0; }
+
+      .chain { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+      .chain .row { display: flex; align-items: center; gap: 26px; font-weight: 900; font-size: 64px; letter-spacing: -0.02em; text-transform: uppercase; }
+      .chain .arrow { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 60px; color: var(--gold); width: 60px; }
+      .chain .row.hit { color: var(--gold); font-size: 100px; }
+
+      .terms { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
+      .term { display: flex; align-items: baseline; gap: 12px; font-weight: 900; font-size: 44px; letter-spacing: -0.01em; line-height: 1.05; padding: 12px 20px; border: 4px solid var(--paper); border-radius: 4px; }
+      .term .n { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 26px; color: var(--gold); }
+
+      #risk .big { font-weight: 900; font-size: 190px; line-height: 0.95; color: var(--gold); letter-spacing: -0.03em; margin-top: 6px; }
+      #risk .chips { margin-top: 18px; }
+
+      #course .title { font-weight: 900; font-size: 72px; line-height: 1.02; letter-spacing: -0.02em; margin-top: 16px; }
+      #course .title em { font-style: normal; color: var(--gold); }
+      #course .by { display: flex; align-items: center; gap: 18px; margin-top: 26px; font-family: "IBM Plex Mono", monospace; font-weight: 400; font-size: 30px; color: var(--ink-soft); }
+      #course .by img { height: 62px; width: auto; display: block; }
+
+      #cta .line1 { font-weight: 700; font-size: 52px; line-height: 1.15; }
+      #cta .pill {
+        display: block; width: fit-content; margin-top: 26px; background: var(--gold); color: var(--navy);
+        font-weight: 900; font-size: 64px; padding: 20px 38px; border-radius: 999px; letter-spacing: -0.01em;
+      }
+      #cta .line2 { font-weight: 900; font-size: 58px; margin-top: 24px; text-transform: uppercase; letter-spacing: 0.01em; }
+
+      /* ---------- captions ---------- */
+      #captions { position: absolute; left: 80px; right: 80px; top: 1250px; height: 260px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; opacity: 0;
+        font-weight: 900; font-size: 74px; line-height: 1.08; letter-spacing: -0.01em; text-transform: uppercase;
+        color: #ffffff; -webkit-text-stroke: 3px rgba(8, 8, 40, 0.9); paint-order: stroke fill;
+        text-shadow: 0 6px 18px rgba(5, 5, 30, 0.75);
+      }
+      .cap .w { display: inline-block; margin: 0 8px; }
+
+      /* ---------- end card ---------- */
+      #endcard { position: absolute; inset: 0; background: var(--navy); }
+      #endcard .glow {
+        position: absolute; left: -200px; right: -200px; top: 420px; height: 900px;
+        background: radial-gradient(ellipse at center, rgba(246, 220, 72, 0.16) 0%, rgba(246, 220, 72, 0) 62%);
+      }
+      #endcard .stack { position: absolute; left: 90px; right: 90px; top: 560px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+      #endcard .logo { width: 760px; height: auto; display: block; }
+      #endcard .rule { width: 160px; height: 8px; background: var(--gold); margin: 56px 0 48px; }
+      #endcard .course { font-weight: 900; font-size: 74px; line-height: 1.05; letter-spacing: -0.02em; }
+      #endcard .site { margin-top: 22px; font-weight: 700; font-size: 34px; color: var(--ink-soft); }
+      #endcard .next {
+        margin-top: 56px; font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 36px;
+        letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="59" data-width="1080" data-height="1920">
+      <!-- footage: five spoken ranges of the source, hard-cut -->
+      <div class="shot" id="s1w">
+        <video id="s1" src="assets/source.mp4" data-start="0" data-duration="21.76" data-media-start="0.10" data-track-index="0" playsinline data-has-audio="true"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.08,"v":1},{"t":21.7,"v":1},{"t":21.76,"v":0}]}]}'></video>
+      </div>
+      <div class="shot" id="s2w">
+        <video id="s2" src="assets/source.mp4" data-start="21.76" data-duration="11.68" data-media-start="50.60" data-track-index="0" playsinline data-has-audio="true"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.06,"v":1},{"t":11.62,"v":1},{"t":11.68,"v":0}]}]}'></video>
+      </div>
+      <div class="shot" id="s3w">
+        <video id="s3" src="assets/source.mp4" data-start="33.44" data-duration="7.5" data-media-start="66.50" data-track-index="0" playsinline data-has-audio="true"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.06,"v":1},{"t":7.44,"v":1},{"t":7.5,"v":0}]}]}'></video>
+      </div>
+      <div class="shot" id="s4w">
+        <video id="s4" src="assets/source.mp4" data-start="40.94" data-duration="7.07" data-media-start="79.55" data-track-index="0" playsinline data-has-audio="true"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.06,"v":1},{"t":7.01,"v":1},{"t":7.07,"v":0}]}]}'></video>
+      </div>
+      <div class="shot" id="s5w">
+        <video id="s5" src="assets/source.mp4" data-start="48.01" data-duration="9.85" data-media-start="93.14" data-track-index="0" playsinline data-has-audio="true"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.06,"v":1},{"t":7.3,"v":1},{"t":9.85,"v":0}]}]}'></video>
+      </div>
+      <div class="vignette clip" id="vig" data-start="0" data-duration="55.27" data-track-index="1"></div>
+
+      <!-- graphics band -->
+      <div class="gfx clip" id="hook" data-start="0.15" data-duration="4.95" data-track-index="2">
+        <div class="panel" id="hook-panel"><div class="tab"></div>
+          <div class="kicker">Previsão para os próximos meses</div>
+          <div class="big"><span id="hook-num">0</span>%</div>
+          <div class="sub">de chance de um El Niño muito forte</div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="modal" data-start="14.85" data-duration="6.85" data-track-index="2">
+        <div class="panel" id="modal-panel"><div class="tab"></div>
+          <div class="kicker" id="m-kick1">Antes de chegar ao navio</div>
+          <div class="kicker kick2" id="m-kick2">⚠ El Niño afeta tudo ao mesmo tempo</div>
+          <div class="chips">
+            <span class="chip" id="m1">Rodovia</span><span class="chip" id="m2">Ferrovia</span><span class="chip" id="m3">Rios</span><span class="chip" id="m4">Armazéns</span><span class="chip" id="m5">Terminais</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="cost" data-start="22.05" data-duration="4.75" data-track-index="2">
+        <div class="panel" id="cost-panel"><div class="tab"></div>
+          <div class="kicker">Efeito dominó</div>
+          <div class="chain">
+            <div class="row" id="c1"><span class="arrow">01</span>Carga atrasa</div>
+            <div class="row" id="c2"><span class="arrow">02</span>Navio espera</div>
+            <div class="row hit" id="c3"><span class="arrow">=</span>Custo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="legal" data-start="27.0" data-duration="6.35" data-track-index="2">
+        <div class="panel" id="legal-panel"><div class="tab"></div>
+          <div class="kicker">Entram em jogo</div>
+          <div class="terms">
+            <div class="term" id="t1"><span class="n">01</span>Laytime</div>
+            <div class="term" id="t2"><span class="n">02</span>Demurrage</div>
+            <div class="term" id="t3"><span class="n">03</span>Seguro</div>
+            <div class="term" id="t4"><span class="n">04</span>Responsabilidade contratual</div>
+            <div class="term" id="t5"><span class="n">05</span>Força maior</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="risk" data-start="36.6" data-duration="4.25" data-track-index="2">
+        <div class="panel" id="risk-panel"><div class="tab"></div>
+          <div class="kicker">Clima também significa</div>
+          <div class="big">RISCO</div>
+          <div class="chips">
+            <span class="chip" id="r1">Operacional</span><span class="chip" id="r2">Financeiro</span><span class="chip" id="r3">Jurídico</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="course" data-start="41.1" data-duration="3.45" data-track-index="2">
+        <div class="panel" id="course-panel"><div class="tab"></div>
+          <div class="kicker">Visão integrada · Pós-graduação</div>
+          <div class="title">Logística Portuária <em>&amp;</em> Direito Marítimo</div>
+          <div class="by"><img src="assets/navigare-logo.png" alt="Pós-Graduação Navigare" /></div>
+        </div>
+      </div>
+
+      <div class="gfx clip" id="cta" data-start="50.3" data-duration="4.97" data-track-index="2">
+        <div class="panel" id="cta-panel"><div class="tab"></div>
+          <div class="line1">Quer atuar de forma mais estratégica nesse mercado?</div>
+          <span class="pill" id="cta-pill">Fale com a Navigare</span>
+          <div class="line2" id="cta-next">Conheça a próxima turma</div>
+        </div>
+      </div>
+
+      <!-- captions -->
+      <div class="clip" id="captions" data-layout-allow-overlap data-start="0" data-duration="55.27" data-track-index="3"></div>
+
+      <!-- end card -->
+      <div class="clip" id="endcard" data-start="55.27" data-duration="3.73" data-track-index="4">
+        <div class="glow" id="end-glow"></div>
+        <div class="stack">
+          <img class="logo" id="end-logo" src="assets/navigare-logo.png" alt="Pós-Graduação Navigare" />
+          <div class="rule" id="end-rule"></div>
+          <div class="course" id="end-course">Logística Portuária &amp; Direito Marítimo</div>
+          <div class="next" id="end-next">Conheça a próxima turma</div>
+          <div class="site" id="end-site">Ao vivo / Online · institutonavigare.com.br</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const CAPTIONS = [[[0.22, 1.02, "95%"], [1.18, 1.34, "de"], [1.34, 1.66, "chances"]], [[1.66, 1.82, "do"], [1.82, 1.98, "El"], [2.06, 2.22, "Niño"]], [[2.38, 2.7, "atingir"], [2.7, 2.78, "uma"], [2.78, 3.34, "intensidade"]], [[3.34, 3.58, "muito"], [3.58, 3.98, "forte"], [3.98, 4.22, "nos"]], [[4.22, 4.62, "próximos"], [4.62, 5.18, "meses."]], [[5.18, 5.42, "Mas"], [5.42, 5.58, "o"], [5.58, 5.82, "que"]], [[5.82, 5.98, "isso"], [5.98, 6.22, "tem"], [6.22, 6.3, "a"]], [[6.3, 6.38, "ver"], [6.38, 6.54, "com"], [6.54, 6.62, "o"]], [[6.62, 6.86, "navio"], [7.02, 7.26, "chegando"], [7.26, 7.34, "a"]], [[7.42, 7.5, "um"], [7.5, 7.82, "porto"], [7.82, 8.62, "brasileiro?"]], [[8.62, 8.86, "Mais"], [8.86, 9.02, "do"], [9.02, 9.18, "que"]], [[9.18, 9.82, "parece,"]], [[9.82, 9.98, "porque"], [10.14, 10.22, "um"], [10.22, 10.54, "porto"]], [[10.78, 10.94, "não"], [10.94, 11.34, "funciona"], [11.34, 11.5, "de"]], [[11.5, 11.74, "forma"], [11.74, 12.54, "isolada."]], [[12.54, 12.86, "Antes"], [12.86, 13.02, "da"], [13.02, 13.34, "carga"]], [[13.34, 13.66, "chegar"], [13.66, 13.82, "ao"], [13.82, 14.38, "navio,"]], [[14.38, 14.54, "ela"], [14.54, 14.7, "pode"], [14.7, 14.86, "passar"]], [[14.86, 15.02, "por"], [15.02, 15.66, "rodovia,"]], [[15.74, 16.46, "ferrovia,"]], [[16.46, 16.86, "rios,"]], [[16.86, 17.58, "armazéns"], [17.58, 17.74, "e"], [17.74, 18.38, "terminais."]], [[18.38, 18.46, "E"], [18.46, 18.54, "o"], [18.62, 18.78, "El"], [18.86, 19.1, "Niño"]], [[19.34, 19.5, "pode"], [19.5, 19.9, "afetar"]], [[19.9, 20.14, "vários"], [20.14, 20.46, "desses"], [20.46, 20.86, "pontos"]], [[20.86, 21.02, "ao"], [21.02, 21.34, "mesmo"], [21.34, 21.74, "tempo."]], [[21.76, 21.88, "Se"], [21.88, 21.96, "a"], [21.96, 22.28, "carga"]], [[22.28, 22.84, "atrasa,"]], [[22.84, 22.92, "o"], [22.92, 23.24, "navio"], [23.4, 23.64, "pode"]], [[23.64, 24.12, "esperar."]], [[24.12, 24.28, "E"], [24.28, 24.44, "se"], [24.44, 24.52, "o"]], [[24.52, 24.84, "navio"], [24.84, 25.32, "espera,"]], [[25.32, 25.64, "começa"], [25.64, 25.72, "a"], [25.72, 26.2, "existir"]], [[26.2, 26.76, "custo."]], [[26.81, 27.05, "E"], [27.05, 27.29, "aí"], [27.29, 27.69, "entram"]], [[27.69, 27.93, "temas"], [27.93, 28.17, "como"], [28.17, 28.81, "laytime,"]], [[28.81, 29.69, "demurrage,"]], [[29.69, 30.33, "seguro,"]], [[30.33, 31.21, "responsabilidade"], [31.21, 31.85, "contratual"], [32.01, 32.25, "e"]], [[32.25, 32.57, "até"], [32.57, 32.97, "força"], [32.97, 33.44, "maior."]], [[33.44, 33.55, "Pra"], [33.55, 33.79, "quem"], [33.79, 34.11, "trabalha"]], [[34.11, 34.27, "com"], [34.27, 34.75, "logística"], [34.75, 35.39, "portuária"]], [[35.39, 35.55, "e"], [35.55, 35.87, "direito"], [35.95, 36.43, "marítimo,"]], [[36.51, 36.99, "clima"], [36.99, 37.31, "também"], [37.31, 37.79, "significa"]], [[37.95, 38.43, "risco"], [38.43, 39.31, "operacional,"]], [[39.31, 40.03, "financeiro"], [40.03, 40.19, "e"], [40.19, 40.91, "jurídico."]], [[40.96, 41.12, "É"], [41.2, 41.76, "justamente"], [41.76, 42.0, "esse"]], [[42.0, 42.24, "tipo"], [42.24, 42.32, "de"], [42.32, 42.64, "visão"]], [[42.64, 43.12, "integrada"], [43.2, 43.36, "que"], [43.36, 44.0, "desenvolvemos"]], [[44.0, 44.24, "na"], [44.24, 44.56, "pós"], [44.8, 44.96, "em"]], [[48.04, 48.2, "Se"], [48.2, 48.52, "você"], [48.52, 48.84, "quer"]], [[48.84, 49.0, "se"], [49.0, 49.32, "preparar"], [49.32, 49.48, "para"]], [[49.48, 49.88, "atuar"], [49.88, 50.04, "de"], [50.04, 50.28, "forma"]], [[50.28, 50.52, "mais"], [50.52, 51.08, "estratégica"], [51.24, 51.56, "nesse"]], [[51.56, 51.96, "mercado,"]], [[51.96, 52.28, "fale"], [52.36, 52.52, "com"], [52.52, 52.6, "a"]], [[52.6, 53.08, "Navigare"], [53.16, 53.24, "e"], [53.24, 53.72, "conheça"]], [[53.8, 53.88, "a"], [53.88, 54.28, "próxima"], [54.28, 55.24, "turma."]]];
+      const capRoot = document.getElementById("captions");
+      const tl = gsap.timeline({ paused: true });
+
+      // captions: one group visible at a time, active word in gold
+      CAPTIONS.forEach((grp, gi) => {
+        const el = document.createElement("div");
+        el.className = "cap";
+        el.id = "cap-" + gi;
+        grp.forEach((w, wi) => {
+          const s = document.createElement("span");
+          s.className = "w";
+          s.id = "cap-" + gi + "-" + wi;
+          s.textContent = w[2];
+          el.appendChild(s);
+        });
+        capRoot.appendChild(el);
+        const start = grp[0][0];
+        const next = CAPTIONS[gi + 1];
+        let end = next ? Math.min(next[0][0], grp[grp.length - 1][1] + 0.6) : grp[grp.length - 1][1] + 0.6;
+        if (start < 44.62 && end > 44.62) end = 44.62; // keep the source course card clean
+        tl.fromTo(el, { opacity: 0, y: 14, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: Math.min(0.12, (end - start) / 2), ease: "power2.out" }, start);
+        tl.set(el, { opacity: 0 }, Math.min(end, 55.25));
+        grp.forEach((w, wi) => {
+          const s = el.children[wi];
+          tl.set(s, { color: "#f6dc48" }, w[0]);
+          if (wi < grp.length - 1) tl.set(s, { color: "#ffffff" }, grp[wi + 1][0]);
+        });
+      });
+
+      // footage: alternate framing on each hard cut so jump cuts read as intentional
+      tl.fromTo("#s1w", { scale: 1.0 }, { scale: 1.06, duration: 21.76, ease: "none" }, 0);
+      tl.fromTo("#s2w", { scale: 1.1 }, { scale: 1.13, duration: 11.68, ease: "none" }, 21.76);
+      tl.fromTo("#s3w", { scale: 1.12 }, { scale: 1.16, duration: 7.5, ease: "none" }, 33.44);
+      tl.fromTo("#s4w", { scale: 1.0 }, { scale: 1.0, duration: 7.07, ease: "none" }, 40.94);
+      tl.fromTo("#s5w", { scale: 1.0 }, { scale: 1.06, duration: 7.26, ease: "none" }, 48.01);
+
+      // hook: 95% count-up
+      tl.fromTo("#hook-panel", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 0.15);
+      const counter = { v: 0 };
+      tl.to(counter, { v: 95, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("hook-num").textContent = Math.round(counter.v); } }, 0.3);
+      tl.fromTo("#hook .big", { scale: 0.9 }, { scale: 1, duration: 0.5, ease: "back.out(2)", transformOrigin: "left center" }, 1.3);
+      tl.to("#hook-panel", { y: -40, opacity: 0, duration: 0.3, ease: "power2.in" }, 4.8);
+
+      // modal chain: chips land on each spoken word
+      tl.fromTo("#modal-panel", { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "expo.out" }, 14.85);
+      [["#m1", 15.02], ["#m2", 15.74], ["#m3", 16.46], ["#m4", 16.86], ["#m5", 17.74]].forEach(([id, t]) => {
+        tl.fromTo(id, { y: 30, opacity: 0, scale: 0.85 }, { y: 0, opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, t);
+      });
+      tl.to("#m-kick1", { opacity: 0, y: -16, duration: 0.2, ease: "power2.in" }, 19.4);
+      tl.fromTo("#m-kick2", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 19.5);
+      tl.to(".chip[id^='m']", { borderColor: "#f6dc48", color: "#f6dc48", duration: 0.15, stagger: 0.05 }, 19.45);
+      tl.to("#modal-panel", { x: 80, opacity: 0, duration: 0.3, ease: "power2.in" }, 21.4);
+
+      // cost domino
+      tl.fromTo("#cost-panel", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 22.05);
+      tl.fromTo("#c1", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 22.28);
+      tl.fromTo("#c2", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 24.84);
+      tl.fromTo("#c3", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "expo.out", transformOrigin: "left center" }, 26.15);
+      tl.to("#cost-panel", { y: -40, opacity: 0, duration: 0.25, ease: "power2.in" }, 26.55);
+
+      // legal terms
+      tl.fromTo("#legal-panel", { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "expo.out" }, 27.0);
+      [["#t1", 28.17], ["#t2", 28.81], ["#t3", 29.69], ["#t4", 30.33], ["#t5", 32.57]].forEach(([id, t]) => {
+        tl.fromTo(id, { y: 30, opacity: 0, scale: 0.85 }, { y: 0, opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, t);
+        tl.fromTo(id + " .n", { scale: 1.8 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, t);
+      });
+      tl.to("#legal-panel", { x: -80, opacity: 0, duration: 0.3, ease: "power2.in" }, 33.05);
+
+      // risk triad
+      tl.fromTo("#risk-panel", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 36.6);
+      tl.fromTo("#risk .big", { scale: 1.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out", transformOrigin: "left center" }, 36.75);
+      [["#r1", 37.95], ["#r2", 39.31], ["#r3", 40.19]].forEach(([id, t]) => {
+        tl.fromTo(id, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, t);
+      });
+      tl.to("#risk-panel", { y: -40, opacity: 0, duration: 0.25, ease: "power2.in" }, 40.6);
+
+      // course card
+      tl.fromTo("#course-panel", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 41.1);
+      tl.fromTo("#course .title", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "power3.inOut" }, 41.3);
+      tl.fromTo("#course .by", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 42.2);
+      tl.to("#course-panel", { y: -40, opacity: 0, duration: 0.25, ease: "power2.in" }, 44.3);
+
+      // CTA
+      tl.fromTo("#cta-panel", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 50.3);
+      tl.fromTo("#cta-pill", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.4)", transformOrigin: "left center" }, 52.2);
+      tl.to("#cta-pill", { scale: 1.05, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "left center" }, 52.7);
+      tl.fromTo("#cta-next", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 53.2);
+
+      // end card
+      tl.fromTo("#end-glow", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.1, duration: 3.7, ease: "sine.out" }, 55.27);
+      tl.fromTo("#end-logo", { opacity: 0, y: 40, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "expo.out" }, 55.35);
+      tl.fromTo("#end-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, 55.8);
+      tl.fromTo("#end-course", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 56.0);
+      tl.fromTo("#end-next", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 56.5);
+      tl.fromTo("#end-site", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 56.8);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

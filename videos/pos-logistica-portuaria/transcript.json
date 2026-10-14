@@ -1,0 +1,1724 @@
+[
+  {
+    "id": "w0",
+    "text": "95%",
+    "start": 0.32,
+    "end": 1.12
+  },
+  {
+    "id": "w1",
+    "text": "de",
+    "start": 1.28,
+    "end": 1.44
+  },
+  {
+    "id": "w2",
+    "text": "chances",
+    "start": 1.44,
+    "end": 1.76
+  },
+  {
+    "id": "w3",
+    "text": "do",
+    "start": 1.76,
+    "end": 1.92
+  },
+  {
+    "id": "w4",
+    "text": "El",
+    "start": 1.92,
+    "end": 2.08
+  },
+  {
+    "id": "w5",
+    "text": "Nino",
+    "start": 2.16,
+    "end": 2.32
+  },
+  {
+    "id": "w6",
+    "text": "atingir",
+    "start": 2.48,
+    "end": 2.8
+  },
+  {
+    "id": "w7",
+    "text": "uma",
+    "start": 2.8,
+    "end": 2.88
+  },
+  {
+    "id": "w8",
+    "text": "intensidade",
+    "start": 2.88,
+    "end": 3.44
+  },
+  {
+    "id": "w9",
+    "text": "muito",
+    "start": 3.44,
+    "end": 3.68
+  },
+  {
+    "id": "w10",
+    "text": "forte",
+    "start": 3.68,
+    "end": 4.08
+  },
+  {
+    "id": "w11",
+    "text": "nos",
+    "start": 4.08,
+    "end": 4.32
+  },
+  {
+    "id": "w12",
+    "text": "próximos",
+    "start": 4.32,
+    "end": 4.72
+  },
+  {
+    "id": "w13",
+    "text": "meses.",
+    "start": 4.72,
+    "end": 5.28
+  },
+  {
+    "id": "w14",
+    "text": "Mas",
+    "start": 5.28,
+    "end": 5.52
+  },
+  {
+    "id": "w15",
+    "text": "o",
+    "start": 5.52,
+    "end": 5.68
+  },
+  {
+    "id": "w16",
+    "text": "que",
+    "start": 5.68,
+    "end": 5.92
+  },
+  {
+    "id": "w17",
+    "text": "isso",
+    "start": 5.92,
+    "end": 6.08
+  },
+  {
+    "id": "w18",
+    "text": "tem",
+    "start": 6.08,
+    "end": 6.32
+  },
+  {
+    "id": "w19",
+    "text": "a",
+    "start": 6.32,
+    "end": 6.4
+  },
+  {
+    "id": "w20",
+    "text": "ver",
+    "start": 6.4,
+    "end": 6.48
+  },
+  {
+    "id": "w21",
+    "text": "com",
+    "start": 6.48,
+    "end": 6.64
+  },
+  {
+    "id": "w22",
+    "text": "o",
+    "start": 6.64,
+    "end": 6.72
+  },
+  {
+    "id": "w23",
+    "text": "navio",
+    "start": 6.72,
+    "end": 6.96
+  },
+  {
+    "id": "w24",
+    "text": "chegando",
+    "start": 7.12,
+    "end": 7.36
+  },
+  {
+    "id": "w25",
+    "text": "a",
+    "start": 7.36,
+    "end": 7.44
+  },
+  {
+    "id": "w26",
+    "text": "um",
+    "start": 7.52,
+    "end": 7.6
+  },
+  {
+    "id": "w27",
+    "text": "porto",
+    "start": 7.6,
+    "end": 7.92
+  },
+  {
+    "id": "w28",
+    "text": "brasileiro?",
+    "start": 7.92,
+    "end": 8.72
+  },
+  {
+    "id": "w29",
+    "text": "Mais",
+    "start": 8.72,
+    "end": 8.96
+  },
+  {
+    "id": "w30",
+    "text": "do",
+    "start": 8.96,
+    "end": 9.12
+  },
+  {
+    "id": "w31",
+    "text": "que",
+    "start": 9.12,
+    "end": 9.28
+  },
+  {
+    "id": "w32",
+    "text": "parece,",
+    "start": 9.28,
+    "end": 9.92
+  },
+  {
+    "id": "w33",
+    "text": "porque",
+    "start": 9.92,
+    "end": 10.08
+  },
+  {
+    "id": "w34",
+    "text": "um",
+    "start": 10.24,
+    "end": 10.32
+  },
+  {
+    "id": "w35",
+    "text": "porto",
+    "start": 10.32,
+    "end": 10.64
+  },
+  {
+    "id": "w36",
+    "text": "não",
+    "start": 10.88,
+    "end": 11.04
+  },
+  {
+    "id": "w37",
+    "text": "funciona",
+    "start": 11.04,
+    "end": 11.44
+  },
+  {
+    "id": "w38",
+    "text": "de",
+    "start": 11.44,
+    "end": 11.6
+  },
+  {
+    "id": "w39",
+    "text": "forma",
+    "start": 11.6,
+    "end": 11.84
+  },
+  {
+    "id": "w40",
+    "text": "isolada.",
+    "start": 11.84,
+    "end": 12.64
+  },
+  {
+    "id": "w41",
+    "text": "Antes",
+    "start": 12.64,
+    "end": 12.96
+  },
+  {
+    "id": "w42",
+    "text": "da",
+    "start": 12.96,
+    "end": 13.12
+  },
+  {
+    "id": "w43",
+    "text": "carga",
+    "start": 13.12,
+    "end": 13.44
+  },
+  {
+    "id": "w44",
+    "text": "chegar",
+    "start": 13.44,
+    "end": 13.76
+  },
+  {
+    "id": "w45",
+    "text": "ao",
+    "start": 13.76,
+    "end": 13.92
+  },
+  {
+    "id": "w46",
+    "text": "navio,",
+    "start": 13.92,
+    "end": 14.48
+  },
+  {
+    "id": "w47",
+    "text": "ela",
+    "start": 14.48,
+    "end": 14.64
+  },
+  {
+    "id": "w48",
+    "text": "pode",
+    "start": 14.64,
+    "end": 14.8
+  },
+  {
+    "id": "w49",
+    "text": "passar",
+    "start": 14.8,
+    "end": 14.96
+  },
+  {
+    "id": "w50",
+    "text": "por",
+    "start": 14.96,
+    "end": 15.12
+  },
+  {
+    "id": "w51",
+    "text": "rodovia,",
+    "start": 15.12,
+    "end": 15.76
+  },
+  {
+    "id": "w52",
+    "text": "ferrovia,",
+    "start": 15.84,
+    "end": 16.56
+  },
+  {
+    "id": "w53",
+    "text": "rios,",
+    "start": 16.56,
+    "end": 16.96
+  },
+  {
+    "id": "w54",
+    "text": "armazéns",
+    "start": 16.96,
+    "end": 17.68
+  },
+  {
+    "id": "w55",
+    "text": "e",
+    "start": 17.68,
+    "end": 17.84
+  },
+  {
+    "id": "w56",
+    "text": "terminais.",
+    "start": 17.84,
+    "end": 18.48
+  },
+  {
+    "id": "w57",
+    "text": "E",
+    "start": 18.48,
+    "end": 18.56
+  },
+  {
+    "id": "w58",
+    "text": "o",
+    "start": 18.56,
+    "end": 18.64
+  },
+  {
+    "id": "w59",
+    "text": "El",
+    "start": 18.72,
+    "end": 18.88
+  },
+  {
+    "id": "w60",
+    "text": "Ninho",
+    "start": 18.96,
+    "end": 19.2
+  },
+  {
+    "id": "w61",
+    "text": "pode",
+    "start": 19.44,
+    "end": 19.6
+  },
+  {
+    "id": "w62",
+    "text": "afetar",
+    "start": 19.6,
+    "end": 20
+  },
+  {
+    "id": "w63",
+    "text": "vários",
+    "start": 20,
+    "end": 20.24
+  },
+  {
+    "id": "w64",
+    "text": "desses",
+    "start": 20.24,
+    "end": 20.56
+  },
+  {
+    "id": "w65",
+    "text": "pontos",
+    "start": 20.56,
+    "end": 20.96
+  },
+  {
+    "id": "w66",
+    "text": "ao",
+    "start": 20.96,
+    "end": 21.12
+  },
+  {
+    "id": "w67",
+    "text": "mesmo",
+    "start": 21.12,
+    "end": 21.44
+  },
+  {
+    "id": "w68",
+    "text": "tempo.",
+    "start": 21.44,
+    "end": 21.84
+  },
+  {
+    "id": "w69",
+    "text": "No",
+    "start": 21.84,
+    "end": 22
+  },
+  {
+    "id": "w70",
+    "text": "sul",
+    "start": 22,
+    "end": 22.16
+  },
+  {
+    "id": "w71",
+    "text": "do",
+    "start": 22.24,
+    "end": 22.4
+  },
+  {
+    "id": "w72",
+    "text": "Brasil,",
+    "start": 22.4,
+    "end": 22.88
+  },
+  {
+    "id": "w73",
+    "text": "por",
+    "start": 22.88,
+    "end": 23.04
+  },
+  {
+    "id": "w74",
+    "text": "exemplo,",
+    "start": 23.04,
+    "end": 23.36
+  },
+  {
+    "id": "w75",
+    "text": "o",
+    "start": 23.36,
+    "end": 23.44
+  },
+  {
+    "id": "w76",
+    "text": "fenômeno",
+    "start": 23.44,
+    "end": 24
+  },
+  {
+    "id": "w77",
+    "text": "costuma",
+    "start": 24,
+    "end": 24.4
+  },
+  {
+    "id": "w78",
+    "text": "favorecer",
+    "start": 24.4,
+    "end": 24.96
+  },
+  {
+    "id": "w79",
+    "text": "períodos",
+    "start": 24.96,
+    "end": 25.28
+  },
+  {
+    "id": "w80",
+    "text": "de",
+    "start": 25.28,
+    "end": 25.44
+  },
+  {
+    "id": "w81",
+    "text": "chuva",
+    "start": 25.44,
+    "end": 25.84
+  },
+  {
+    "id": "w82",
+    "text": "acima",
+    "start": 25.84,
+    "end": 26.16
+  },
+  {
+    "id": "w83",
+    "text": "da",
+    "start": 26.16,
+    "end": 26.32
+  },
+  {
+    "id": "w84",
+    "text": "média.",
+    "start": 26.32,
+    "end": 26.88
+  },
+  {
+    "id": "w85",
+    "text": "E",
+    "start": 26.88,
+    "end": 27.04
+  },
+  {
+    "id": "w86",
+    "text": "chuva",
+    "start": 27.04,
+    "end": 27.44
+  },
+  {
+    "id": "w87",
+    "text": "excessiva",
+    "start": 27.44,
+    "end": 27.92
+  },
+  {
+    "id": "w88",
+    "text": "pode",
+    "start": 28,
+    "end": 28.24
+  },
+  {
+    "id": "w89",
+    "text": "gerar",
+    "start": 28.24,
+    "end": 28.48
+  },
+  {
+    "id": "w90",
+    "text": "cheias,",
+    "start": 28.48,
+    "end": 28.96
+  },
+  {
+    "id": "w91",
+    "text": "afetar",
+    "start": 28.96,
+    "end": 29.36
+  },
+  {
+    "id": "w92",
+    "text": "acessos",
+    "start": 29.36,
+    "end": 29.76
+  },
+  {
+    "id": "w93",
+    "text": "rodoviários",
+    "start": 29.84,
+    "end": 30.48
+  },
+  {
+    "id": "w94",
+    "text": "e",
+    "start": 30.48,
+    "end": 30.64
+  },
+  {
+    "id": "w95",
+    "text": "ferroviárias",
+    "start": 30.64,
+    "end": 31.44
+  },
+  {
+    "id": "w96",
+    "text": "e",
+    "start": 31.44,
+    "end": 31.68
+  },
+  {
+    "id": "w97",
+    "text": "até",
+    "start": 31.68,
+    "end": 31.92
+  },
+  {
+    "id": "w98",
+    "text": "interromper",
+    "start": 31.92,
+    "end": 32.56
+  },
+  {
+    "id": "w99",
+    "text": "determinadas",
+    "start": 32.56,
+    "end": 33.2
+  },
+  {
+    "id": "w100",
+    "text": "operações",
+    "start": 33.2,
+    "end": 33.6
+  },
+  {
+    "id": "w101",
+    "text": "portuárias.",
+    "start": 33.76,
+    "end": 34.8
+  },
+  {
+    "id": "w102",
+    "text": "Já",
+    "start": 34.8,
+    "end": 35.12
+  },
+  {
+    "id": "w103",
+    "text": "no",
+    "start": 35.12,
+    "end": 35.28
+  },
+  {
+    "id": "w104",
+    "text": "norte,",
+    "start": 35.28,
+    "end": 35.76
+  },
+  {
+    "id": "w105",
+    "text": "o",
+    "start": 35.76,
+    "end": 35.84
+  },
+  {
+    "id": "w106",
+    "text": "problema",
+    "start": 35.84,
+    "end": 36.16
+  },
+  {
+    "id": "w107",
+    "text": "pode",
+    "start": 36.24,
+    "end": 36.56
+  },
+  {
+    "id": "w108",
+    "text": "ser",
+    "start": 36.56,
+    "end": 36.8
+  },
+  {
+    "id": "w109",
+    "text": "justamente",
+    "start": 36.8,
+    "end": 37.36
+  },
+  {
+    "id": "w110",
+    "text": "o",
+    "start": 37.36,
+    "end": 37.44
+  },
+  {
+    "id": "w111",
+    "text": "contrário.",
+    "start": 37.44,
+    "end": 38.24
+  },
+  {
+    "id": "w112",
+    "text": "Menos",
+    "start": 38.24,
+    "end": 38.56
+  },
+  {
+    "id": "w113",
+    "text": "chuva",
+    "start": 38.56,
+    "end": 39.04
+  },
+  {
+    "id": "w114",
+    "text": "pode",
+    "start": 39.04,
+    "end": 39.28
+  },
+  {
+    "id": "w115",
+    "text": "reduzir",
+    "start": 39.28,
+    "end": 39.76
+  },
+  {
+    "id": "w116",
+    "text": "nível",
+    "start": 39.76,
+    "end": 40
+  },
+  {
+    "id": "w117",
+    "text": "dos",
+    "start": 40,
+    "end": 40.16
+  },
+  {
+    "id": "w118",
+    "text": "rios",
+    "start": 40.16,
+    "end": 40.56
+  },
+  {
+    "id": "w119",
+    "text": "e",
+    "start": 40.56,
+    "end": 40.72
+  },
+  {
+    "id": "w120",
+    "text": "limitar",
+    "start": 40.72,
+    "end": 41.12
+  },
+  {
+    "id": "w121",
+    "text": "a",
+    "start": 41.12,
+    "end": 41.28
+  },
+  {
+    "id": "w122",
+    "text": "navegabilidade.",
+    "start": 41.28,
+    "end": 42.4
+  },
+  {
+    "id": "w123",
+    "text": "Ou",
+    "start": 42.4,
+    "end": 42.56
+  },
+  {
+    "id": "w124",
+    "text": "seja,",
+    "start": 42.56,
+    "end": 42.96
+  },
+  {
+    "id": "w125",
+    "text": "dependendo",
+    "start": 42.96,
+    "end": 43.52
+  },
+  {
+    "id": "w126",
+    "text": "da",
+    "start": 43.52,
+    "end": 43.68
+  },
+  {
+    "id": "w127",
+    "text": "região,",
+    "start": 43.68,
+    "end": 44.24
+  },
+  {
+    "id": "w128",
+    "text": "água",
+    "start": 44.24,
+    "end": 44.56
+  },
+  {
+    "id": "w129",
+    "text": "de",
+    "start": 44.56,
+    "end": 44.72
+  },
+  {
+    "id": "w130",
+    "text": "mais",
+    "start": 44.72,
+    "end": 44.96
+  },
+  {
+    "id": "w131",
+    "text": "ou",
+    "start": 44.96,
+    "end": 45.2
+  },
+  {
+    "id": "w132",
+    "text": "água",
+    "start": 45.2,
+    "end": 45.44
+  },
+  {
+    "id": "w133",
+    "text": "de",
+    "start": 45.44,
+    "end": 45.6
+  },
+  {
+    "id": "w134",
+    "text": "menos",
+    "start": 45.6,
+    "end": 45.84
+  },
+  {
+    "id": "w135",
+    "text": "pode",
+    "start": 45.92,
+    "end": 46.16
+  },
+  {
+    "id": "w136",
+    "text": "virar",
+    "start": 46.16,
+    "end": 46.48
+  },
+  {
+    "id": "w137",
+    "text": "um",
+    "start": 46.48,
+    "end": 46.56
+  },
+  {
+    "id": "w138",
+    "text": "problema",
+    "start": 46.56,
+    "end": 46.88
+  },
+  {
+    "id": "w139",
+    "text": "logístico.",
+    "start": 46.96,
+    "end": 47.68
+  },
+  {
+    "id": "w140",
+    "text": "E",
+    "start": 47.68,
+    "end": 47.92
+  },
+  {
+    "id": "w141",
+    "text": "é",
+    "start": 47.92,
+    "end": 48.08
+  },
+  {
+    "id": "w142",
+    "text": "aqui",
+    "start": 48.08,
+    "end": 48.32
+  },
+  {
+    "id": "w143",
+    "text": "que",
+    "start": 48.32,
+    "end": 48.48
+  },
+  {
+    "id": "w144",
+    "text": "a",
+    "start": 48.48,
+    "end": 48.64
+  },
+  {
+    "id": "w145",
+    "text": "história",
+    "start": 48.64,
+    "end": 48.88
+  },
+  {
+    "id": "w146",
+    "text": "deixa",
+    "start": 48.88,
+    "end": 49.2
+  },
+  {
+    "id": "w147",
+    "text": "de",
+    "start": 49.2,
+    "end": 49.28
+  },
+  {
+    "id": "w148",
+    "text": "ser",
+    "start": 49.28,
+    "end": 49.44
+  },
+  {
+    "id": "w149",
+    "text": "apenas",
+    "start": 49.44,
+    "end": 49.76
+  },
+  {
+    "id": "w150",
+    "text": "sobre",
+    "start": 49.76,
+    "end": 50
+  },
+  {
+    "id": "w151",
+    "text": "clima.",
+    "start": 50,
+    "end": 50.56
+  },
+  {
+    "id": "w152",
+    "text": "Se",
+    "start": 50.56,
+    "end": 50.72
+  },
+  {
+    "id": "w153",
+    "text": "a",
+    "start": 50.72,
+    "end": 50.8
+  },
+  {
+    "id": "w154",
+    "text": "carga",
+    "start": 50.8,
+    "end": 51.12
+  },
+  {
+    "id": "w155",
+    "text": "atrasa,",
+    "start": 51.12,
+    "end": 51.68
+  },
+  {
+    "id": "w156",
+    "text": "o",
+    "start": 51.68,
+    "end": 51.76
+  },
+  {
+    "id": "w157",
+    "text": "navio",
+    "start": 51.76,
+    "end": 52.08
+  },
+  {
+    "id": "w158",
+    "text": "pode",
+    "start": 52.24,
+    "end": 52.48
+  },
+  {
+    "id": "w159",
+    "text": "esperar.",
+    "start": 52.48,
+    "end": 52.96
+  },
+  {
+    "id": "w160",
+    "text": "E",
+    "start": 52.96,
+    "end": 53.12
+  },
+  {
+    "id": "w161",
+    "text": "se",
+    "start": 53.12,
+    "end": 53.28
+  },
+  {
+    "id": "w162",
+    "text": "o",
+    "start": 53.28,
+    "end": 53.36
+  },
+  {
+    "id": "w163",
+    "text": "navio",
+    "start": 53.36,
+    "end": 53.68
+  },
+  {
+    "id": "w164",
+    "text": "espera,",
+    "start": 53.68,
+    "end": 54.16
+  },
+  {
+    "id": "w165",
+    "text": "começa",
+    "start": 54.16,
+    "end": 54.48
+  },
+  {
+    "id": "w166",
+    "text": "a",
+    "start": 54.48,
+    "end": 54.56
+  },
+  {
+    "id": "w167",
+    "text": "existir",
+    "start": 54.56,
+    "end": 55.04
+  },
+  {
+    "id": "w168",
+    "text": "custo.",
+    "start": 55.04,
+    "end": 55.6
+  },
+  {
+    "id": "w169",
+    "text": "E",
+    "start": 55.65,
+    "end": 55.89
+  },
+  {
+    "id": "w170",
+    "text": "aí",
+    "start": 55.89,
+    "end": 56.13
+  },
+  {
+    "id": "w171",
+    "text": "entram",
+    "start": 56.13,
+    "end": 56.53
+  },
+  {
+    "id": "w172",
+    "text": "temas",
+    "start": 56.53,
+    "end": 56.77
+  },
+  {
+    "id": "w173",
+    "text": "como",
+    "start": 56.77,
+    "end": 57.01
+  },
+  {
+    "id": "w174",
+    "text": "laytime,",
+    "start": 57.01,
+    "end": 57.65
+  },
+  {
+    "id": "w175",
+    "text": "demorragem,",
+    "start": 57.65,
+    "end": 58.53
+  },
+  {
+    "id": "w176",
+    "text": "seguro,",
+    "start": 58.53,
+    "end": 59.17
+  },
+  {
+    "id": "w177",
+    "text": "responsabilidade",
+    "start": 59.17,
+    "end": 60.05
+  },
+  {
+    "id": "w178",
+    "text": "contratual",
+    "start": 60.05,
+    "end": 60.69
+  },
+  {
+    "id": "w179",
+    "text": "e",
+    "start": 60.85,
+    "end": 61.09
+  },
+  {
+    "id": "w180",
+    "text": "até",
+    "start": 61.09,
+    "end": 61.41
+  },
+  {
+    "id": "w181",
+    "text": "força",
+    "start": 61.41,
+    "end": 61.81
+  },
+  {
+    "id": "w182",
+    "text": "maior.",
+    "start": 61.81,
+    "end": 62.29
+  },
+  {
+    "id": "w183",
+    "text": "Então,",
+    "start": 62.29,
+    "end": 62.61
+  },
+  {
+    "id": "w184",
+    "text": "quando",
+    "start": 62.61,
+    "end": 62.85
+  },
+  {
+    "id": "w185",
+    "text": "você",
+    "start": 62.85,
+    "end": 63.09
+  },
+  {
+    "id": "w186",
+    "text": "ouvir",
+    "start": 63.09,
+    "end": 63.41
+  },
+  {
+    "id": "w187",
+    "text": "falar",
+    "start": 63.41,
+    "end": 63.65
+  },
+  {
+    "id": "w188",
+    "text": "em",
+    "start": 63.65,
+    "end": 63.81
+  },
+  {
+    "id": "w189",
+    "text": "El",
+    "start": 63.81,
+    "end": 63.97
+  },
+  {
+    "id": "w190",
+    "text": "Ninho,",
+    "start": 64.13,
+    "end": 64.61
+  },
+  {
+    "id": "w191",
+    "text": "não",
+    "start": 64.61,
+    "end": 64.77
+  },
+  {
+    "id": "w192",
+    "text": "pense",
+    "start": 64.77,
+    "end": 65.01
+  },
+  {
+    "id": "w193",
+    "text": "só",
+    "start": 65.09,
+    "end": 65.25
+  },
+  {
+    "id": "w194",
+    "text": "em",
+    "start": 65.25,
+    "end": 65.41
+  },
+  {
+    "id": "w195",
+    "text": "previsão",
+    "start": 65.41,
+    "end": 65.81
+  },
+  {
+    "id": "w196",
+    "text": "do",
+    "start": 65.81,
+    "end": 65.97
+  },
+  {
+    "id": "w197",
+    "text": "tempo.",
+    "start": 65.97,
+    "end": 66.45
+  },
+  {
+    "id": "w198",
+    "text": "Pra",
+    "start": 66.45,
+    "end": 66.61
+  },
+  {
+    "id": "w199",
+    "text": "quem",
+    "start": 66.61,
+    "end": 66.85
+  },
+  {
+    "id": "w200",
+    "text": "trabalha",
+    "start": 66.85,
+    "end": 67.17
+  },
+  {
+    "id": "w201",
+    "text": "com",
+    "start": 67.17,
+    "end": 67.33
+  },
+  {
+    "id": "w202",
+    "text": "logística",
+    "start": 67.33,
+    "end": 67.81
+  },
+  {
+    "id": "w203",
+    "text": "portuária",
+    "start": 67.81,
+    "end": 68.45
+  },
+  {
+    "id": "w204",
+    "text": "e",
+    "start": 68.45,
+    "end": 68.61
+  },
+  {
+    "id": "w205",
+    "text": "direito",
+    "start": 68.61,
+    "end": 68.93
+  },
+  {
+    "id": "w206",
+    "text": "marítimo,",
+    "start": 69.01,
+    "end": 69.49
+  },
+  {
+    "id": "w207",
+    "text": "clima",
+    "start": 69.57,
+    "end": 70.05
+  },
+  {
+    "id": "w208",
+    "text": "também",
+    "start": 70.05,
+    "end": 70.37
+  },
+  {
+    "id": "w209",
+    "text": "significa",
+    "start": 70.37,
+    "end": 70.85
+  },
+  {
+    "id": "w210",
+    "text": "risco",
+    "start": 71.01,
+    "end": 71.49
+  },
+  {
+    "id": "w211",
+    "text": "operacional,",
+    "start": 71.49,
+    "end": 72.37
+  },
+  {
+    "id": "w212",
+    "text": "financeiro",
+    "start": 72.37,
+    "end": 73.09
+  },
+  {
+    "id": "w213",
+    "text": "e",
+    "start": 73.09,
+    "end": 73.25
+  },
+  {
+    "id": "w214",
+    "text": "jurídico.",
+    "start": 73.25,
+    "end": 73.97
+  },
+  {
+    "id": "w215",
+    "text": "E",
+    "start": 73.97,
+    "end": 74.21
+  },
+  {
+    "id": "w216",
+    "text": "saber",
+    "start": 74.21,
+    "end": 74.53
+  },
+  {
+    "id": "w217",
+    "text": "interpretar",
+    "start": 74.53,
+    "end": 75.09
+  },
+  {
+    "id": "w218",
+    "text": "essas",
+    "start": 75.09,
+    "end": 75.33
+  },
+  {
+    "id": "w219",
+    "text": "conexões",
+    "start": 75.33,
+    "end": 76.05
+  },
+  {
+    "id": "w220",
+    "text": "é",
+    "start": 76.05,
+    "end": 76.21
+  },
+  {
+    "id": "w221",
+    "text": "o",
+    "start": 76.21,
+    "end": 76.37
+  },
+  {
+    "id": "w222",
+    "text": "que",
+    "start": 76.37,
+    "end": 76.53
+  },
+  {
+    "id": "w223",
+    "text": "diferencia",
+    "start": 76.53,
+    "end": 77.17
+  },
+  {
+    "id": "w224",
+    "text": "um",
+    "start": 77.33,
+    "end": 77.49
+  },
+  {
+    "id": "w225",
+    "text": "profissional",
+    "start": 77.49,
+    "end": 78.05
+  },
+  {
+    "id": "w226",
+    "text": "estratégico",
+    "start": 78.05,
+    "end": 78.61
+  },
+  {
+    "id": "w227",
+    "text": "no",
+    "start": 78.77,
+    "end": 78.93
+  },
+  {
+    "id": "w228",
+    "text": "setor.",
+    "start": 78.93,
+    "end": 79.57
+  },
+  {
+    "id": "w229",
+    "text": "É",
+    "start": 79.57,
+    "end": 79.73
+  },
+  {
+    "id": "w230",
+    "text": "justamente",
+    "start": 79.81,
+    "end": 80.37
+  },
+  {
+    "id": "w231",
+    "text": "esse",
+    "start": 80.37,
+    "end": 80.61
+  },
+  {
+    "id": "w232",
+    "text": "tipo",
+    "start": 80.61,
+    "end": 80.85
+  },
+  {
+    "id": "w233",
+    "text": "de",
+    "start": 80.85,
+    "end": 80.93
+  },
+  {
+    "id": "w234",
+    "text": "visão",
+    "start": 80.93,
+    "end": 81.25
+  },
+  {
+    "id": "w235",
+    "text": "integrada",
+    "start": 81.25,
+    "end": 81.73
+  },
+  {
+    "id": "w236",
+    "text": "que",
+    "start": 81.81,
+    "end": 81.97
+  },
+  {
+    "id": "w237",
+    "text": "desenvolvemos",
+    "start": 81.97,
+    "end": 82.61
+  },
+  {
+    "id": "w238",
+    "text": "na",
+    "start": 82.61,
+    "end": 82.85
+  },
+  {
+    "id": "w239",
+    "text": "pós",
+    "start": 82.85,
+    "end": 83.17
+  },
+  {
+    "id": "w240",
+    "text": "em",
+    "start": 83.41,
+    "end": 83.57
+  },
+  {
+    "id": "w241",
+    "text": "logística",
+    "start": 83.57,
+    "end": 84.05
+  },
+  {
+    "id": "w242",
+    "text": "portuária",
+    "start": 84.05,
+    "end": 84.53
+  },
+  {
+    "id": "w243",
+    "text": "e",
+    "start": 84.53,
+    "end": 84.69
+  },
+  {
+    "id": "w244",
+    "text": "direito",
+    "start": 84.69,
+    "end": 85.01
+  },
+  {
+    "id": "w245",
+    "text": "marítimo",
+    "start": 85.01,
+    "end": 85.49
+  },
+  {
+    "id": "w246",
+    "text": "da",
+    "start": 85.49,
+    "end": 85.65
+  },
+  {
+    "id": "w247",
+    "text": "Navigare.",
+    "start": 85.65,
+    "end": 86.53
+  },
+  {
+    "id": "w248",
+    "text": "Entender",
+    "start": 86.53,
+    "end": 87.01
+  },
+  {
+    "id": "w249",
+    "text": "não",
+    "start": 87.01,
+    "end": 87.17
+  },
+  {
+    "id": "w250",
+    "text": "só",
+    "start": 87.17,
+    "end": 87.33
+  },
+  {
+    "id": "w251",
+    "text": "como",
+    "start": 87.33,
+    "end": 87.57
+  },
+  {
+    "id": "w252",
+    "text": "a",
+    "start": 87.57,
+    "end": 87.73
+  },
+  {
+    "id": "w253",
+    "text": "operação",
+    "start": 87.73,
+    "end": 88.13
+  },
+  {
+    "id": "w254",
+    "text": "funciona,",
+    "start": 88.13,
+    "end": 88.69
+  },
+  {
+    "id": "w255",
+    "text": "mas",
+    "start": 88.69,
+    "end": 88.93
+  },
+  {
+    "id": "w256",
+    "text": "como",
+    "start": 88.93,
+    "end": 89.09
+  },
+  {
+    "id": "w257",
+    "text": "clima,",
+    "start": 89.17,
+    "end": 89.65
+  },
+  {
+    "id": "w258",
+    "text": "contratos,",
+    "start": 89.65,
+    "end": 90.29
+  },
+  {
+    "id": "w259",
+    "text": "riscos",
+    "start": 90.29,
+    "end": 90.77
+  },
+  {
+    "id": "w260",
+    "text": "e",
+    "start": 90.77,
+    "end": 90.93
+  },
+  {
+    "id": "w261",
+    "text": "decisões",
+    "start": 90.93,
+    "end": 91.49
+  },
+  {
+    "id": "w262",
+    "text": "logísticas",
+    "start": 91.49,
+    "end": 92.21
+  },
+  {
+    "id": "w263",
+    "text": "se",
+    "start": 92.21,
+    "end": 92.37
+  },
+  {
+    "id": "w264",
+    "text": "conectam.",
+    "start": 92.37,
+    "end": 93.17
+  },
+  {
+    "id": "w265",
+    "text": "Se",
+    "start": 93.17,
+    "end": 93.33
+  },
+  {
+    "id": "w266",
+    "text": "você",
+    "start": 93.33,
+    "end": 93.65
+  },
+  {
+    "id": "w267",
+    "text": "quer",
+    "start": 93.65,
+    "end": 93.97
+  },
+  {
+    "id": "w268",
+    "text": "se",
+    "start": 93.97,
+    "end": 94.13
+  },
+  {
+    "id": "w269",
+    "text": "preparar",
+    "start": 94.13,
+    "end": 94.45
+  },
+  {
+    "id": "w270",
+    "text": "para",
+    "start": 94.45,
+    "end": 94.61
+  },
+  {
+    "id": "w271",
+    "text": "atuar",
+    "start": 94.61,
+    "end": 95.01
+  },
+  {
+    "id": "w272",
+    "text": "de",
+    "start": 95.01,
+    "end": 95.17
+  },
+  {
+    "id": "w273",
+    "text": "forma",
+    "start": 95.17,
+    "end": 95.41
+  },
+  {
+    "id": "w274",
+    "text": "mais",
+    "start": 95.41,
+    "end": 95.65
+  },
+  {
+    "id": "w275",
+    "text": "estratégica",
+    "start": 95.65,
+    "end": 96.21
+  },
+  {
+    "id": "w276",
+    "text": "nesse",
+    "start": 96.37,
+    "end": 96.69
+  },
+  {
+    "id": "w277",
+    "text": "mercado,",
+    "start": 96.69,
+    "end": 97.09
+  },
+  {
+    "id": "w278",
+    "text": "fale",
+    "start": 97.09,
+    "end": 97.41
+  },
+  {
+    "id": "w279",
+    "text": "com",
+    "start": 97.49,
+    "end": 97.65
+  },
+  {
+    "id": "w280",
+    "text": "a",
+    "start": 97.65,
+    "end": 97.73
+  },
+  {
+    "id": "w281",
+    "text": "Navigare",
+    "start": 97.73,
+    "end": 98.21
+  },
+  {
+    "id": "w282",
+    "text": "e",
+    "start": 98.29,
+    "end": 98.37
+  },
+  {
+    "id": "w283",
+    "text": "conheça",
+    "start": 98.37,
+    "end": 98.85
+  },
+  {
+    "id": "w284",
+    "text": "a",
+    "start": 98.93,
+    "end": 99.01
+  },
+  {
+    "id": "w285",
+    "text": "próxima",
+    "start": 99.01,
+    "end": 99.41
+  },
+  {
+    "id": "w286",
+    "text": "turma.",
+    "start": 99.41,
+    "end": 100.37
+  }
+]

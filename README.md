@@ -53,3 +53,23 @@ Substituir antes da publicação definitiva:
 - Logotipo da Navigare — hoje é um monograma tipográfico (`.logo-mark` / `.logo-word`).
 - Fotos das ministrantes — hoje são avatares com iniciais (`.mentor-avatar`).
 - Endereço completo do local — a página informa que será enviado após a inscrição.
+
+## Vídeos (HyperFrames)
+
+`videos/` é um projeto [HyperFrames](https://github.com/heygen-com/hyperframes):
+vídeos escritos em HTML/CSS/GSAP e renderizados em MP4 (formato vertical 1080×1920,
+para Reels/Stories). Requer Node.js 22+ e FFmpeg.
+
+```bash
+cd videos
+npm run dev      # preview no navegador
+npm run check    # valida a composição
+npm run render   # gera o MP4 em renders/
+```
+
+As skills do HyperFrames para o Claude Code ficam em `.claude/skills/` (comece por
+`/hyperframes`). Exemplo de pedido: *"Usando /hyperframes, crie um vídeo de 15s
+divulgando o Workshop de Estética Avançada a partir da landing page."*
+
+O GSAP é servido localmente (`videos/assets/vendor/gsap.min.js`) em vez de CDN,
+para que o render funcione mesmo em ambientes com rede restrita.

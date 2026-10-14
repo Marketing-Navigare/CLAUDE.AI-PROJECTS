@@ -8,3 +8,4 @@ tr.json
 renders/*.tmp*
 renders/*
 !renders/reel-elnino-portos.mp4
+!renders/reel-elnino-portos-publicar.mp4

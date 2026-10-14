@@ -52,14 +52,15 @@ for g_i, g in enumerate(groups):
     cap_js.append(f'tl.fromTo("#capin{g_i}",{{scale:0.86,opacity:0,y:18}},{{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"}},{start});')
     for j, w in enumerate(g):
         cap_js.append(f'tl.fromTo("#w{g_i}_{j}",{{opacity:0.55}},{{opacity:1,duration:0.08}},{round(w[1],2)});')
-        cap_js.append(f'tl.fromTo("#w{g_i}_{j}",{{scale:1}},{{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"}},{round(w[1],2)});')
+        cap_js.append(f'tl.fromTo("#w{g_i}_{j}",{{scale:1}},{{scale:1.06,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"}},{round(w[1],2)});')
 
 # ---------- câmera (punch-ins por corte) ----------
 FACES = [(0, .64, .44), (5.22, .61, .42), (8.34, .55, .43), (10.94, .55, .37), (20.10, .54, .33),
          (21.06, .56, .35), (23.03, .56, .35), (26.25, .51, .51), (27.17, .50, .50), (31.22, .50, .43),
          (33.95, .50, .40), (36.28, .51, .39), (38.78, .50, .39), (45.15, .52, .39), (49.68, .53, .41),
          (56.47, .53, .46)]
-CAM = [(0, 1.85, .44), (5.22, 1.30, .40), (8.34, 1.55, .40), (10.12, 1.95, .40), (10.94, 1.35, .40),
+CAM = [(0, 1.85, .44, (.76, .47), (.74, .47)), (1.15, 1.85, .44, (.74, .47), (.62, .45)),
+       (2.2, 1.85, .44, (.62, .45), (.56, .42)), (5.22, 1.30, .40), (8.34, 1.55, .40), (10.12, 1.95, .40), (10.94, 1.35, .40),
        (19.95, 1.60, .40), (20.10, 1.25, .40), (24.90, 1.70, .40), (26.25, 2.00, .42), (31.15, 1.35, .40),
        (33.52, 1.80, .40), (33.95, 1.20, .47), (36.28, 1.25, .47), (38.78, 1.50, .40), (45.15, 1.20, .47),
        (48.98, 1.45, .47), (49.68, 1.30, .40), (52.60, 1.20, .50), (56.47, 1.45, .50)]
@@ -77,12 +78,14 @@ def cam_xy(S, fx, fy, ty, tx=.5):
     return round(cx * 1080, 1), round(cy * 1920, 1)
 
 cam_js = []
-for n, (t0, S, ty) in enumerate(CAM):
+for n, kf in enumerate(CAM):
+    t0, S, ty = kf[:3]
     t1 = CAM[n + 1][0] if n + 1 < len(CAM) else VIDEO_END
-    fx, fy = face_at(t0)
-    x0, y0 = cam_xy(S, fx, fy, ty)
-    S1 = S * 1.035
-    x1, y1 = cam_xy(S1, fx, fy, ty)
+    f0 = kf[3] if len(kf) > 3 else face_at(t0)   # rastreio do rosto quando ela se move no quadro
+    f1 = kf[4] if len(kf) > 4 else f0
+    S1 = S if len(kf) > 3 else S * 1.035
+    x0, y0 = cam_xy(S, f0[0], f0[1], ty)
+    x1, y1 = cam_xy(S1, f1[0], f1[1], ty)
     cam_js.append(f'tl.fromTo("#cam",{{scale:{S},x:{x0},y:{y0}}},{{scale:{S1:.3f},x:{x1},y:{y1},duration:{t1 - t0:.2f},ease:"none",immediateRender:false}},{t0});')
 
 # ---------- chuva determinística ----------

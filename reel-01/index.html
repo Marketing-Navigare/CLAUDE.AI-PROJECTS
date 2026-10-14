@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="pt-BR" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #0f1e3d;
+        --navy2: #182c56;
+        --ink: #0b1428;
+        --paper: #f4efe4;
+        --amber: #f2b134;
+        --red: #e5533d;
+        --fg: #f7f4ec;
+        --muted: #b9c3d8;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+      body { font-family: "Montserrat", sans-serif; color: var(--fg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      .full { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #cam { position: absolute; inset: 0; width: 1080px; height: 1920px; transform-origin: 50% 50%; }
+      #a-roll { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* legendas */
+      .cap { position: absolute; left: 0; top: 1170px; width: 1080px; height: 260px; }
+      .cap-in { position: absolute; left: 70px; right: 70px; top: 0; text-align: center; font-weight: 900;
+        font-size: 66px; line-height: 1.12; text-transform: uppercase; letter-spacing: -0.5px; }
+      .w { display: inline-block; color: #ffffff; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+      .w.hl { color: var(--amber); }
+
+      /* sombreamento superior para textos sobre o vídeo */
+      .topshade { position: absolute; left: 0; top: 0; width: 1080px; height: 760px;
+        background: linear-gradient(180deg, rgba(11,20,40,0.88) 0%, rgba(11,20,40,0.55) 55%, rgba(11,20,40,0) 100%); }
+
+      /* hook */
+      #hook-num { position: absolute; left: 0; top: 150px; width: 1080px; text-align: center; font-family: "Archivo Black";
+        font-size: 300px; line-height: 1; color: var(--amber); letter-spacing: -8px; }
+      #hook-sub { position: absolute; left: 90px; top: 470px; width: 900px; text-align: center; font-weight: 900;
+        font-size: 50px; line-height: 1.15; text-transform: uppercase; }
+      #hook-tag { position: absolute; left: 340px; top: 100px; width: 400px; height: 52px; border-radius: 26px;
+        background: var(--red); color: #fff; font-weight: 700; font-size: 26px; letter-spacing: 3px; text-align: center; line-height: 52px; }
+
+      /* fundos de cutaway */
+      .bg { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 30%, var(--navy2) 0%, var(--navy) 55%, var(--ink) 100%); }
+      .grid { position: absolute; inset: 0; opacity: 0.09;
+        background-image: linear-gradient(var(--muted) 1px, transparent 1px), linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+        background-size: 90px 90px; }
+      .kicker { position: absolute; left: 90px; top: 170px; width: 900px; font-weight: 700; font-size: 30px;
+        letter-spacing: 4px; text-transform: uppercase; color: var(--amber); }
+      .title { position: absolute; left: 90px; top: 220px; width: 900px; font-weight: 900; font-size: 58px; line-height: 1.1; }
+
+      /* navio */
+      #sea { position: absolute; left: 0; top: 760px; width: 1080px; height: 400px;
+        background: linear-gradient(180deg, #1f4a7a 0%, #10284a 100%); }
+      #quay { position: absolute; left: 760px; top: 640px; width: 320px; height: 140px; background: #6b7a90; }
+      .crane { position: absolute; top: 330px; width: 16px; height: 320px; background: var(--amber); }
+      .crane-arm { position: absolute; top: 330px; height: 16px; width: 260px; background: var(--amber); }
+      #shipwrap { position: absolute; left: 0; top: 560px; width: 700px; height: 260px; }
+      #ship-label { position: absolute; left: 90px; top: 1000px; width: 900px; font-weight: 900; font-size: 64px; text-transform: uppercase; }
+
+      /* cadeia logística */
+      .node { position: absolute; left: 110px; width: 860px; height: 112px; }
+      .node .ic { position: absolute; left: 0; top: 0; width: 112px; height: 112px; border-radius: 56px; background: var(--navy2);
+        border: 4px solid var(--muted); }
+      .node .ic svg { position: absolute; left: 22px; top: 22px; width: 60px; height: 60px; }
+      .node .lb { position: absolute; left: 150px; top: 24px; width: 560px; font-weight: 900; font-size: 56px; line-height: 64px; text-transform: uppercase; }
+      .node .warn { position: absolute; left: 740px; top: 18px; width: 76px; height: 76px; border-radius: 38px; background: var(--red);
+        color: #fff; font-weight: 900; font-size: 54px; line-height: 76px; text-align: center; }
+      .node .ring { position: absolute; left: -4px; top: -4px; width: 120px; height: 120px; border-radius: 60px; border: 6px solid var(--red); }
+      #chain-line { position: absolute; left: 164px; top: 400px; width: 6px; height: 720px; background: var(--muted); opacity: 0.4; transform-origin: 50% 0%; }
+      #elnino { position: absolute; left: 610px; top: 150px; width: 380px; height: 76px; border-radius: 38px; background: var(--red);
+        color: #fff; font-weight: 900; font-size: 38px; letter-spacing: 2px; text-align: center; line-height: 76px; }
+
+      /* sul / norte */
+      .region { position: absolute; left: 90px; top: 170px; width: 560px; font-family: "Archivo Black"; font-size: 170px; line-height: 1; }
+      .region-sub { position: absolute; left: 96px; top: 360px; width: 560px; font-weight: 900; font-size: 52px; line-height: 1.1; text-transform: uppercase; color: var(--muted); }
+      .gauge { position: absolute; left: 700px; top: 470px; width: 220px; height: 620px; border-radius: 30px; border: 6px solid var(--muted);
+        overflow: hidden; background: rgba(255,255,255,0.04); }
+      .gauge .fill { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #4f9ad8, #1f4f86);
+        transform-origin: 50% 100%; }
+      .gauge-lb { position: absolute; left: 640px; top: 410px; width: 340px; text-align: center; font-weight: 700; font-size: 28px;
+        letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+      .gauge-tag { position: absolute; left: 96px; width: 560px; height: 90px; border-radius: 20px; font-weight: 900; font-size: 44px;
+        line-height: 90px; text-align: center; text-transform: uppercase; }
+      .drop { position: absolute; width: 4px; border-radius: 2px; background: #9cc8f2; }
+      #rain { position: absolute; inset: 0; }
+      #stamp { position: absolute; left: 90px; top: 700px; width: 900px; height: 170px; border: 10px solid var(--red); border-radius: 18px;
+        color: var(--red); background: rgba(11,20,40,0.85); font-family: "Archivo Black"; font-size: 64px; line-height: 1.1;
+        text-align: center; padding-top: 14px; }
+      #sun { position: absolute; left: 820px; top: 150px; width: 170px; height: 170px; border-radius: 85px; background: var(--amber);
+        box-shadow: 0 0 80px rgba(242,177,52,0.6); }
+      #hull { position: absolute; left: 20px; top: 0; width: 168px; height: 60px; }
+
+      /* painel superior sobre o vídeo */
+      .panel { position: absolute; left: 60px; top: 150px; width: 960px; border-radius: 36px; background: rgba(11,20,40,0.9);
+        border: 3px solid rgba(185,195,216,0.25); }
+      .step { position: absolute; top: 40px; width: 270px; height: 170px; border-radius: 24px; background: var(--navy2);
+        font-weight: 900; font-size: 38px; line-height: 1.1; text-align: center; text-transform: uppercase; padding: 30px 16px 0 16px; }
+      .step.hot { background: var(--amber); color: var(--ink); }
+      .arrow { position: absolute; top: 105px; width: 50px; height: 40px; font-weight: 900; font-size: 60px; line-height: 40px; color: var(--amber); text-align: center; }
+      .chip { position: absolute; top: 110px; width: 292px; height: 96px; border-radius: 48px; background: var(--navy2);
+        border: 3px solid var(--muted); font-weight: 900; font-size: 31px; line-height: 90px; text-align: center; }
+      .chip.hot { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+      .panel-t { position: absolute; left: 40px; top: 34px; width: 880px; font-weight: 700; font-size: 34px; letter-spacing: 1px; color: var(--muted); }
+
+      /* contrato */
+      #paper { position: absolute; left: 110px; top: 180px; width: 860px; height: 960px; background: var(--paper); border-radius: 10px;
+        box-shadow: 0 40px 90px rgba(0,0,0,0.5); color: #1b2333; }
+      #paper h2 { position: absolute; left: 70px; top: 60px; width: 720px; font-family: "EB Garamond"; font-weight: 700; font-size: 70px; letter-spacing: 6px; }
+      .pline { position: absolute; left: 70px; height: 14px; border-radius: 7px; background: #d6cfbf; }
+      .clause { position: absolute; left: 50px; width: 760px; height: 92px; }
+      .clause .mk { position: absolute; left: 0; top: 6px; width: 760px; height: 80px; background: var(--amber); border-radius: 8px; transform-origin: 0% 50%; }
+      .clause .tx { position: absolute; left: 22px; top: 14px; width: 720px; font-weight: 900; font-size: 46px; line-height: 64px; }
+      .clause .no { color: #6a6455; font-weight: 700; }
+
+      /* pós / cta */
+      #pos-kicker { position: absolute; left: 40px; top: 36px; width: 880px; font-weight: 700; font-size: 28px; letter-spacing: 5px; color: var(--amber); }
+      #pos-title { position: absolute; left: 40px; top: 84px; width: 880px; font-weight: 900; font-size: 54px; line-height: 1.1; }
+      #pos-brand { position: absolute; left: 40px; top: 226px; width: 880px; font-family: "EB Garamond"; font-weight: 700; font-size: 44px; letter-spacing: 10px; color: var(--muted); }
+      #cta-pill { position: absolute; left: 180px; top: 470px; width: 720px; height: 96px; border-radius: 48px; background: var(--amber);
+        color: var(--ink); font-weight: 900; font-size: 38px; line-height: 96px; text-align: center; text-transform: uppercase; }
+      #end-brand { position: absolute; left: 0; top: 700px; width: 1080px; text-align: center; font-family: "EB Garamond"; font-weight: 700;
+        font-size: 140px; letter-spacing: 18px; }
+      #end-sub { position: absolute; left: 120px; top: 900px; width: 840px; text-align: center; font-weight: 700; font-size: 40px; line-height: 1.25; color: var(--muted); }
+      #end-pill { position: absolute; left: 180px; top: 1060px; width: 720px; height: 100px; border-radius: 50px; background: var(--amber);
+        color: var(--ink); font-weight: 900; font-size: 40px; line-height: 100px; text-align: center; text-transform: uppercase; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="59.9" data-width="1080" data-height="1920">
+      <div class="full" style="background: var(--ink)"></div>
+
+      <!-- A-ROLL (já cortado: pausas, repetições e desvios removidos) -->
+      <div id="cam">
+        <video id="a-roll" class="clip" src="assets/aroll.mp4" playsinline data-start="0" data-duration="58.99"
+          data-track-index="0" data-has-audio="true" data-volume="1"></video>
+      </div>
+
+      <!-- HOOK 0–5.2 -->
+      <div id="hook" class="clip full" data-start="0" data-duration="5.2" data-track-index="2">
+        <div class="topshade" id="hook-shade"></div>
+        <div id="hook-tag">PREVISÃO</div>
+        <div id="hook-num">95%</div>
+        <div id="hook-sub">de chance de El Niño muito forte</div>
+      </div>
+
+      <!-- B-ROLL: navio chegando ao porto -->
+      <div id="ship" class="clip full" data-start="6.55" data-duration="1.79" data-track-index="3">
+        <div class="bg" id="ship-bg"></div>
+        <div id="sea"></div>
+        <div id="quay"></div>
+        <div class="crane" style="left: 900px"></div>
+        <div class="crane-arm" style="left: 700px"></div>
+        <div id="shipwrap">
+          <svg width="700" height="260" viewBox="0 0 700 260">
+            <rect x="120" y="60" width="90" height="70" fill="#e5533d" />
+            <rect x="215" y="60" width="90" height="70" fill="#f2b134" />
+            <rect x="310" y="60" width="90" height="70" fill="#4f9ad8" />
+            <rect x="405" y="60" width="90" height="70" fill="#e5533d" />
+            <rect x="520" y="10" width="70" height="120" fill="#f7f4ec" />
+            <path d="M40 130 L660 130 L600 230 L90 230 Z" fill="#182c56" stroke="#b9c3d8" stroke-width="6" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- B-ROLL: cadeia logística 12.6–19.95 -->
+      <div id="chain" class="clip full" data-start="12.6" data-duration="7.35" data-track-index="3">
+        <div class="bg"></div>
+        <div class="grid"></div>
+        <div class="kicker" id="chain-k">Antes do navio</div>
+        <div class="title" id="chain-t" style="width: 520px">a carga passa por:</div>
+        <div id="elnino">EL NIÑO</div>
+        <div id="chain-line"></div>
+        <div class="node" id="n0" style="top: 360px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="2" y="16" width="34" height="24" fill="#f7f4ec"/><path d="M36 22 H48 L56 32 V40 H36 Z" fill="#f2b134"/><circle cx="14" cy="46" r="7" fill="#f7f4ec"/><circle cx="44" cy="46" r="7" fill="#f7f4ec"/></svg></div><div class="lb">Rodovia</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n1" style="top: 480px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="8" y="6" width="44" height="38" rx="8" fill="#f7f4ec"/><rect x="14" y="13" width="14" height="12" fill="#182c56"/><rect x="32" y="13" width="14" height="12" fill="#182c56"/><path d="M10 54 L18 44 M50 54 L42 44" stroke="#f2b134" stroke-width="5"/></svg></div><div class="lb">Ferrovia</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n2" style="top: 600px"><div class="ic"><svg viewBox="0 0 60 60"><path d="M4 20 Q14 12 24 20 T44 20 T60 20 M4 34 Q14 26 24 34 T44 34 T60 34 M4 48 Q14 40 24 48 T44 48 T60 48" stroke="#4f9ad8" stroke-width="5" fill="none"/></svg></div><div class="lb">Rios</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n3" style="top: 720px"><div class="ic"><svg viewBox="0 0 60 60"><path d="M4 26 L30 8 L56 26 V54 H4 Z" fill="#f7f4ec"/><rect x="20" y="32" width="20" height="22" fill="#182c56"/></svg></div><div class="lb">Armazéns</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n4" style="top: 840px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="12" y="6" width="6" height="50" fill="#f2b134"/><rect x="12" y="6" width="44" height="6" fill="#f2b134"/><path d="M48 12 V30" stroke="#f7f4ec" stroke-width="3"/><rect x="40" y="30" width="16" height="12" fill="#e5533d"/><rect x="2" y="52" width="56" height="6" fill="#f7f4ec"/></svg></div><div class="lb">Terminais</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n5" style="top: 980px"><div class="ic" style="background: var(--amber); border-color: var(--amber)"><svg viewBox="0 0 60 60"><rect x="18" y="14" width="10" height="12" fill="#0b1428"/><rect x="30" y="14" width="10" height="12" fill="#0b1428"/><path d="M4 30 H56 L48 48 H12 Z" fill="#0b1428"/></svg></div><div class="lb" style="color: var(--amber)">Navio</div></div>
+      </div>
+
+      <!-- B-ROLL: SUL 21.0–24.9 -->
+      <div id="sul" class="clip full" data-start="21.0" data-duration="3.9" data-track-index="3">
+        <div class="bg"></div>
+        <div id="rain"><i class="drop" style="left:663px;top:8px;height:75px;opacity:0.54"></i><i class="drop" style="left:148px;top:797px;height:56px;opacity:0.41"></i><i class="drop" style="left:118px;top:739px;height:63px;opacity:0.27"></i><i class="drop" style="left:888px;top:556px;height:54px;opacity:0.36"></i><i class="drop" style="left:869px;top:-179px;height:102px;opacity:0.50"></i><i class="drop" style="left:457px;top:991px;height:90px;opacity:0.51"></i><i class="drop" style="left:126px;top:881px;height:87px;opacity:0.43"></i><i class="drop" style="left:452px;top:-205px;height:85px;opacity:0.64"></i><i class="drop" style="left:593px;top:558px;height:59px;opacity:0.49"></i><i class="drop" style="left:631px;top:847px;height:102px;opacity:0.56"></i><i class="drop" style="left:211px;top:891px;height:86px;opacity:0.54"></i><i class="drop" style="left:762px;top:-101px;height:85px;opacity:0.57"></i><i class="drop" style="left:122px;top:967px;height:63px;opacity:0.47"></i><i class="drop" style="left:875px;top:343px;height:79px;opacity:0.51"></i><i class="drop" style="left:928px;top:440px;height:69px;opacity:0.36"></i><i class="drop" style="left:368px;top:1131px;height:99px;opacity:0.36"></i><i class="drop" style="left:614px;top:775px;height:81px;opacity:0.64"></i><i class="drop" style="left:919px;top:289px;height:88px;opacity:0.69"></i><i class="drop" style="left:241px;top:748px;height:76px;opacity:0.32"></i><i class="drop" style="left:700px;top:11px;height:109px;opacity:0.47"></i><i class="drop" style="left:80px;top:1068px;height:54px;opacity:0.59"></i><i class="drop" style="left:642px;top:396px;height:94px;opacity:0.41"></i><i class="drop" style="left:1017px;top:887px;height:101px;opacity:0.46"></i><i class="drop" style="left:191px;top:252px;height:80px;opacity:0.56"></i><i class="drop" style="left:133px;top:-176px;height:96px;opacity:0.57"></i><i class="drop" style="left:912px;top:282px;height:95px;opacity:0.42"></i><i class="drop" style="left:710px;top:-254px;height:110px;opacity:0.46"></i><i class="drop" style="left:344px;top:951px;height:57px;opacity:0.47"></i><i class="drop" style="left:446px;top:288px;height:58px;opacity:0.58"></i><i class="drop" style="left:814px;top:500px;height:108px;opacity:0.64"></i><i class="drop" style="left:165px;top:40px;height:78px;opacity:0.43"></i><i class="drop" style="left:569px;top:-20px;height:102px;opacity:0.44"></i><i class="drop" style="left:570px;top:1146px;height:76px;opacity:0.69"></i><i class="drop" style="left:779px;top:172px;height:59px;opacity:0.29"></i><i class="drop" style="left:309px;top:175px;height:92px;opacity:0.36"></i><i class="drop" style="left:993px;top:906px;height:61px;opacity:0.37"></i><i class="drop" style="left:8px;top:-2px;height:76px;opacity:0.49"></i><i class="drop" style="left:652px;top:-43px;height:94px;opacity:0.64"></i><i class="drop" style="left:110px;top:635px;height:107px;opacity:0.64"></i><i class="drop" style="left:803px;top:515px;height:75px;opacity:0.43"></i><i class="drop" style="left:986px;top:999px;height:75px;opacity:0.28"></i><i class="drop" style="left:137px;top:127px;height:78px;opacity:0.32"></i><i class="drop" style="left:696px;top:930px;height:53px;opacity:0.30"></i><i class="drop" style="left:309px;top:798px;height:56px;opacity:0.68"></i><i class="drop" style="left:52px;top:-156px;height:105px;opacity:0.34"></i><i class="drop" style="left:770px;top:4px;height:90px;opacity:0.36"></i><i class="drop" style="left:711px;top:933px;height:73px;opacity:0.46"></i><i class="drop" style="left:236px;top:699px;height:79px;opacity:0.47"></i><i class="drop" style="left:638px;top:-125px;height:59px;opacity:0.30"></i><i class="drop" style="left:701px;top:242px;height:80px;opacity:0.62"></i><i class="drop" style="left:330px;top:757px;height:51px;opacity:0.34"></i><i class="drop" style="left:740px;top:0px;height:94px;opacity:0.49"></i><i class="drop" style="left:55px;top:781px;height:69px;opacity:0.69"></i><i class="drop" style="left:186px;top:1125px;height:104px;opacity:0.37"></i><i class="drop" style="left:751px;top:42px;height:72px;opacity:0.60"></i><i class="drop" style="left:1029px;top:375px;height:90px;opacity:0.35"></i><i class="drop" style="left:399px;top:190px;height:102px;opacity:0.43"></i><i class="drop" style="left:464px;top:109px;height:83px;opacity:0.47"></i><i class="drop" style="left:59px;top:-243px;height:100px;opacity:0.38"></i><i class="drop" style="left:530px;top:96px;height:94px;opacity:0.52"></i><i class="drop" style="left:705px;top:615px;height:101px;opacity:0.67"></i><i class="drop" style="left:715px;top:446px;height:55px;opacity:0.35"></i><i class="drop" style="left:464px;top:662px;height:62px;opacity:0.40"></i><i class="drop" style="left:988px;top:978px;height:107px;opacity:0.52"></i><i class="drop" style="left:3px;top:681px;height:108px;opacity:0.54"></i><i class="drop" style="left:173px;top:1052px;height:57px;opacity:0.66"></i><i class="drop" style="left:408px;top:679px;height:106px;opacity:0.33"></i><i class="drop" style="left:680px;top:-123px;height:101px;opacity:0.68"></i><i class="drop" style="left:810px;top:648px;height:75px;opacity:0.58"></i><i class="drop" style="left:173px;top:25px;height:60px;opacity:0.70"></i></div>
+        <div class="region" id="sul-t">SUL</div>
+        <div class="region-sub" id="sul-s">chuva excessiva</div>
+        <div class="gauge-lb">nível dos rios</div>
+        <div class="gauge"><div class="fill" id="sul-fill"></div></div>
+        <div class="gauge-tag" id="sul-tag" style="top: 560px; background: #4f9ad8; color: var(--ink)">▲ cheias</div>
+        <div id="stamp">OPERAÇÃO INTERROMPIDA</div>
+      </div>
+
+      <!-- B-ROLL: NORTE 27.25–31.15 -->
+      <div id="norte" class="clip full" data-start="27.25" data-duration="3.9" data-track-index="3">
+        <div class="bg"></div>
+        <div id="sun"></div>
+        <div class="region" id="norte-t">NORTE</div>
+        <div class="region-sub" id="norte-s">menos chuva</div>
+        <div class="gauge-lb">nível dos rios</div>
+        <div class="gauge"><div class="fill" id="norte-fill"></div>
+          <div id="hullwrap" style="position: absolute; left: 0; top: 0; width: 220px; height: 620px">
+            <svg id="hull" viewBox="0 0 168 60"><path d="M0 10 H168 L148 56 H20 Z" fill="#f2b134"/></svg>
+          </div>
+        </div>
+        <div class="gauge-tag" id="norte-tag" style="top: 560px; background: var(--red); color: #fff">▼ rios rasos</div>
+        <div class="gauge-tag" id="norte-tag2" style="top: 690px; width: 560px; background: var(--amber); color: var(--ink); font-size: 36px">navegação limitada</div>
+      </div>
+
+      <!-- PAINEL: atraso → espera → custo -->
+      <div id="cost" class="clip full" data-start="34.1" data-duration="4.68" data-track-index="4">
+        <div class="panel" id="cost-p" style="height: 250px">
+          <div class="step" id="st0" style="left: 30px">Carga atrasa</div>
+          <div class="arrow" id="ar0" style="left: 305px">→</div>
+          <div class="step" id="st1" style="left: 345px">Navio espera</div>
+          <div class="arrow" id="ar1" style="left: 620px">→</div>
+          <div class="step hot" id="st2" style="left: 660px">$ Custo</div>
+        </div>
+      </div>
+
+      <!-- B-ROLL: contrato 39.85–45.1 -->
+      <div id="contrato" class="clip full" data-start="39.85" data-duration="5.25" data-track-index="3">
+        <div class="bg"></div>
+        <div class="grid"></div>
+        <div id="paper">
+          <h2>CONTRATO</h2>
+          <div class="pline" style="top: 170px; width: 640px"></div>
+          <div class="pline" style="top: 200px; width: 560px"></div>
+          <div class="clause" id="cl0" style="top: 250px"><div class="mk"></div><div class="tx"><span class="no">§1</span> Laytime</div></div>
+          <div class="clause" id="cl1" style="top: 360px"><div class="mk"></div><div class="tx"><span class="no">§2</span> Demurrage</div></div>
+          <div class="clause" id="cl2" style="top: 470px"><div class="mk"></div><div class="tx"><span class="no">§3</span> Seguro</div></div>
+          <div class="clause" id="cl3" style="top: 580px"><div class="mk"></div><div class="tx"><span class="no">§4</span> Resp. contratual</div></div>
+          <div class="clause" id="cl4" style="top: 690px"><div class="mk" style="background: var(--red)"></div><div class="tx"><span class="no">§5</span> Força maior</div></div>
+          <div class="pline" style="top: 830px; width: 600px"></div>
+          <div class="pline" style="top: 860px; width: 480px"></div>
+        </div>
+      </div>
+
+      <!-- PAINEL: riscos -->
+      <div id="risk" class="clip full" data-start="45.2" data-duration="4.48" data-track-index="4">
+        <div class="panel" id="risk-p" style="height: 240px">
+          <div class="panel-t">El Niño também é risco:</div>
+          <div class="chip" id="ch0" style="left: 26px">OPERACIONAL</div>
+          <div class="chip" id="ch1" style="left: 334px">FINANCEIRO</div>
+          <div class="chip hot" id="ch2" style="left: 642px">JURÍDICO</div>
+        </div>
+      </div>
+
+      <!-- PAINEL: pós + CTA -->
+      <div id="pos" class="clip full" data-start="52.6" data-duration="6.39" data-track-index="4">
+        <div class="panel" id="pos-p" style="height: 296px">
+          <div id="pos-kicker">PÓS-GRADUAÇÃO</div>
+          <div id="pos-title">Logística Portuária e Direito Marítimo</div>
+          <div id="pos-brand">NAVIGARE</div>
+        </div>
+        <div id="cta-pill">Conheça a próxima turma</div>
+      </div>
+
+      <!-- END CARD -->
+      <div id="end" class="clip full" data-start="58.95" data-duration="0.95" data-track-index="5">
+        <div class="bg"></div>
+        <div id="end-brand">NAVIGARE</div>
+        <div id="end-sub">Pós-graduação em Logística Portuária e Direito Marítimo</div>
+        <div id="end-pill">Conheça a próxima turma</div>
+      </div>
+
+      <!-- LEGENDAS (blocos curtos, palavra ativa animada) -->
+      <div id="cap0" class="clip cap" data-start="0.0" data-duration="1.15" data-track-index="9"><div class="cap-in" id="capin0"><span class="w" id="w0_0">Há</span> <span class="w hl" id="w0_1">95%</span></div></div>
+      <div id="cap1" class="clip cap" data-start="1.15" data-duration="1.12" data-track-index="9"><div class="cap-in" id="capin1"><span class="w" id="w1_0">de</span> <span class="w" id="w1_1">chances</span> <span class="w" id="w1_2">do</span> <span class="w hl" id="w1_3">El Niño</span></div></div>
+      <div id="cap2" class="clip cap" data-start="2.27" data-duration="0.88" data-track-index="9"><div class="cap-in" id="capin2"><span class="w" id="w2_0">atingir</span> <span class="w" id="w2_1">uma</span> <span class="w" id="w2_2">intensidade</span></div></div>
+      <div id="cap3" class="clip cap" data-start="3.15" data-duration="0.76" data-track-index="9"><div class="cap-in" id="capin3"><span class="w" id="w3_0">muito</span> <span class="w" id="w3_1">forte</span></div></div>
+      <div id="cap4" class="clip cap" data-start="3.91" data-duration="1.34" data-track-index="9"><div class="cap-in" id="capin4"><span class="w" id="w4_0">nos</span> <span class="w" id="w4_1">próximos</span> <span class="w" id="w4_2">meses.</span></div></div>
+      <div id="cap5" class="clip cap" data-start="5.25" data-duration="0.88" data-track-index="9"><div class="cap-in" id="capin5"><span class="w" id="w5_0">Mas</span> <span class="w" id="w5_1">o</span> <span class="w" id="w5_2">que</span> <span class="w" id="w5_3">isso</span> <span class="w" id="w5_4">tem</span></div></div>
+      <div id="cap6" class="clip cap" data-start="6.13" data-duration="0.66" data-track-index="9"><div class="cap-in" id="capin6"><span class="w" id="w6_0">a</span> <span class="w" id="w6_1">ver</span> <span class="w" id="w6_2">com</span> <span class="w" id="w6_3">o</span> <span class="w" id="w6_4">navio</span></div></div>
+      <div id="cap7" class="clip cap" data-start="6.79" data-duration="1.58" data-track-index="9"><div class="cap-in" id="capin7"><span class="w" id="w7_0">chegando</span> <span class="w" id="w7_1">a</span> <span class="w" id="w7_2">um</span> <span class="w" id="w7_3">porto</span> <span class="w" id="w7_4">brasileiro?</span></div></div>
+      <div id="cap8" class="clip cap" data-start="8.37" data-duration="0.7" data-track-index="9"><div class="cap-in" id="capin8"><span class="w" id="w8_0">Porque</span> <span class="w" id="w8_1">um</span> <span class="w" id="w8_2">porto</span></div></div>
+      <div id="cap9" class="clip cap" data-start="9.07" data-duration="1.92" data-track-index="9"><div class="cap-in" id="capin9"><span class="w" id="w9_0">não</span> <span class="w" id="w9_1">funciona</span> <span class="w" id="w9_2">de</span> <span class="w" id="w9_3">forma</span> <span class="w hl" id="w9_4">isolada.</span></div></div>
+      <div id="cap10" class="clip cap" data-start="10.99" data-duration="1.02" data-track-index="9"><div class="cap-in" id="capin10"><span class="w" id="w10_0">Antes</span> <span class="w" id="w10_1">da</span> <span class="w" id="w10_2">carga</span> <span class="w" id="w10_3">chegar</span></div></div>
+      <div id="cap11" class="clip cap" data-start="12.01" data-duration="0.58" data-track-index="9"><div class="cap-in" id="capin11"><span class="w" id="w11_0">ao</span> <span class="w" id="w11_1">navio,</span></div></div>
+      <div id="cap12" class="clip cap" data-start="12.59" data-duration="0.76" data-track-index="9"><div class="cap-in" id="capin12"><span class="w" id="w12_0">ela</span> <span class="w" id="w12_1">pode</span> <span class="w" id="w12_2">passar</span> <span class="w" id="w12_3">por</span></div></div>
+      <div id="cap13" class="clip cap" data-start="13.35" data-duration="0.74" data-track-index="9"><div class="cap-in" id="capin13"><span class="w hl" id="w13_0">rodovia,</span></div></div>
+      <div id="cap14" class="clip cap" data-start="14.09" data-duration="0.74" data-track-index="9"><div class="cap-in" id="capin14"><span class="w hl" id="w14_0">ferrovia,</span></div></div>
+      <div id="cap15" class="clip cap" data-start="14.83" data-duration="0.44" data-track-index="9"><div class="cap-in" id="capin15"><span class="w hl" id="w15_0">rios,</span></div></div>
+      <div id="cap16" class="clip cap" data-start="15.27" data-duration="1.6" data-track-index="9"><div class="cap-in" id="capin16"><span class="w hl" id="w16_0">armazéns</span> <span class="w" id="w16_1">e</span> <span class="w hl" id="w16_2">terminais.</span></div></div>
+      <div id="cap17" class="clip cap" data-start="16.87" data-duration="0.7" data-track-index="9"><div class="cap-in" id="capin17"><span class="w" id="w17_0">E</span> <span class="w" id="w17_1">o</span> <span class="w hl" id="w17_2">El Niño</span></div></div>
+      <div id="cap18" class="clip cap" data-start="17.57" data-duration="1.46" data-track-index="9"><div class="cap-in" id="capin18"><span class="w" id="w18_0">pode</span> <span class="w" id="w18_1">afetar</span> <span class="w" id="w18_2">vários</span> <span class="w" id="w18_3">desses</span> <span class="w" id="w18_4">pontos</span></div></div>
+      <div id="cap19" class="clip cap" data-start="19.03" data-duration="1.1" data-track-index="9"><div class="cap-in" id="capin19"><span class="w" id="w19_0">ao</span> <span class="w" id="w19_1">mesmo</span> <span class="w hl" id="w19_2">tempo.</span></div></div>
+      <div id="cap20" class="clip cap" data-start="20.13" data-duration="0.86" data-track-index="9"><div class="cap-in" id="capin20"><span class="w" id="w20_0">No</span> <span class="w" id="w20_1">sul</span> <span class="w" id="w20_2">do</span> <span class="w" id="w20_3">Brasil,</span></div></div>
+      <div id="cap21" class="clip cap" data-start="20.99" data-duration="2.02" data-track-index="9"><div class="cap-in" id="capin21"><span class="w" id="w21_0">chuva</span> <span class="w" id="w21_1">excessiva</span> <span class="w" id="w21_2">pode</span> <span class="w" id="w21_3">gerar</span> <span class="w hl" id="w21_4">cheias</span></div></div>
+      <div id="cap22" class="clip cap" data-start="23.01" data-duration="1.1" data-track-index="9"><div class="cap-in" id="capin22"><span class="w" id="w22_0">e</span> <span class="w" id="w22_1">até</span> <span class="w hl" id="w22_2">interromper</span></div></div>
+      <div id="cap23" class="clip cap" data-start="24.11" data-duration="2.04" data-track-index="9"><div class="cap-in" id="capin23"><span class="w" id="w23_0">determinadas</span> <span class="w" id="w23_1">operações</span> <span class="w" id="w23_2">portuárias.</span></div></div>
+      <div id="cap24" class="clip cap" data-start="26.15" data-duration="1.12" data-track-index="9"><div class="cap-in" id="capin24"><span class="w" id="w24_0">Já</span> <span class="w" id="w24_1">no</span> <span class="w hl" id="w24_2">norte,</span></div></div>
+      <div id="cap25" class="clip cap" data-start="27.27" data-duration="1.22" data-track-index="9"><div class="cap-in" id="capin25"><span class="w" id="w25_0">menos</span> <span class="w" id="w25_1">chuva</span> <span class="w" id="w25_2">pode</span> <span class="w" id="w25_3">reduzir</span></div></div>
+      <div id="cap26" class="clip cap" data-start="28.49" data-duration="0.84" data-track-index="9"><div class="cap-in" id="capin26"><span class="w" id="w26_0">o</span> <span class="w" id="w26_1">nível</span> <span class="w" id="w26_2">dos</span> <span class="w" id="w26_3">rios</span></div></div>
+      <div id="cap27" class="clip cap" data-start="29.33" data-duration="2.04" data-track-index="9"><div class="cap-in" id="capin27"><span class="w" id="w27_0">e</span> <span class="w" id="w27_1">limitar</span> <span class="w" id="w27_2">a</span> <span class="w hl" id="w27_3">navegabilidade.</span></div></div>
+      <div id="cap28" class="clip cap" data-start="31.37" data-duration="0.8" data-track-index="9"><div class="cap-in" id="capin28"><span class="w" id="w28_0">E</span> <span class="w" id="w28_1">é</span> <span class="w" id="w28_2">aqui</span> <span class="w" id="w28_3">que</span></div></div>
+      <div id="cap29" class="clip cap" data-start="32.17" data-duration="0.78" data-track-index="9"><div class="cap-in" id="capin29"><span class="w" id="w29_0">a</span> <span class="w" id="w29_1">história</span> <span class="w" id="w29_2">deixa</span> <span class="w" id="w29_3">de</span> <span class="w" id="w29_4">ser</span></div></div>
+      <div id="cap30" class="clip cap" data-start="32.95" data-duration="1.16" data-track-index="9"><div class="cap-in" id="capin30"><span class="w" id="w30_0">apenas</span> <span class="w" id="w30_1">sobre</span> <span class="w hl" id="w30_2">clima.</span></div></div>
+      <div id="cap31" class="clip cap" data-start="34.11" data-duration="1.06" data-track-index="9"><div class="cap-in" id="capin31"><span class="w" id="w31_0">Se</span> <span class="w" id="w31_1">a</span> <span class="w" id="w31_2">carga</span> <span class="w hl" id="w31_3">atrasa,</span></div></div>
+      <div id="cap32" class="clip cap" data-start="35.17" data-duration="1.16" data-track-index="9"><div class="cap-in" id="capin32"><span class="w" id="w32_0">o</span> <span class="w" id="w32_1">navio</span> <span class="w" id="w32_2">pode</span> <span class="w hl" id="w32_3">esperar.</span></div></div>
+      <div id="cap33" class="clip cap" data-start="36.33" data-duration="1.02" data-track-index="9"><div class="cap-in" id="capin33"><span class="w" id="w33_0">E</span> <span class="w" id="w33_1">se</span> <span class="w" id="w33_2">o</span> <span class="w" id="w33_3">navio</span> <span class="w" id="w33_4">espera,</span></div></div>
+      <div id="cap34" class="clip cap" data-start="37.35" data-duration="1.54" data-track-index="9"><div class="cap-in" id="capin34"><span class="w" id="w34_0">começa</span> <span class="w" id="w34_1">a</span> <span class="w" id="w34_2">existir</span> <span class="w hl" id="w34_3">custo.</span></div></div>
+      <div id="cap35" class="clip cap" data-start="38.89" data-duration="1.0" data-track-index="9"><div class="cap-in" id="capin35"><span class="w" id="w35_0">E</span> <span class="w" id="w35_1">aí</span> <span class="w" id="w35_2">entram</span> <span class="w" id="w35_3">temas</span> <span class="w" id="w35_4">como</span></div></div>
+      <div id="cap36" class="clip cap" data-start="39.89" data-duration="0.7" data-track-index="9"><div class="cap-in" id="capin36"><span class="w hl" id="w36_0">laytime,</span></div></div>
+      <div id="cap37" class="clip cap" data-start="40.59" data-duration="0.84" data-track-index="9"><div class="cap-in" id="capin37"><span class="w hl" id="w37_0">demurrage,</span></div></div>
+      <div id="cap38" class="clip cap" data-start="41.43" data-duration="0.58" data-track-index="9"><div class="cap-in" id="capin38"><span class="w hl" id="w38_0">seguro,</span></div></div>
+      <div id="cap39" class="clip cap" data-start="42.01" data-duration="1.56" data-track-index="9"><div class="cap-in" id="capin39"><span class="w" id="w39_0">responsabilidade</span> <span class="w" id="w39_1">contratual</span></div></div>
+      <div id="cap40" class="clip cap" data-start="43.57" data-duration="1.68" data-track-index="9"><div class="cap-in" id="capin40"><span class="w" id="w40_0">e</span> <span class="w" id="w40_1">até</span> <span class="w hl" id="w40_2">força maior.</span></div></div>
+      <div id="cap41" class="clip cap" data-start="45.25" data-duration="1.3" data-track-index="9"><div class="cap-in" id="capin41"><span class="w" id="w41_0">O</span> <span class="w" id="w41_1">clima</span> <span class="w" id="w41_2">também</span> <span class="w" id="w41_3">significa</span></div></div>
+      <div id="cap42" class="clip cap" data-start="46.55" data-duration="1.52" data-track-index="9"><div class="cap-in" id="capin42"><span class="w" id="w42_0">risco</span> <span class="w" id="w42_1">operacional,</span></div></div>
+      <div id="cap43" class="clip cap" data-start="48.07" data-duration="1.74" data-track-index="9"><div class="cap-in" id="capin43"><span class="w" id="w43_0">financeiro</span> <span class="w" id="w43_1">e</span> <span class="w hl" id="w43_2">jurídico.</span></div></div>
+      <div id="cap44" class="clip cap" data-start="49.81" data-duration="1.04" data-track-index="9"><div class="cap-in" id="capin44"><span class="w" id="w44_0">É</span> <span class="w" id="w44_1">justamente</span> <span class="w" id="w44_2">esse</span> <span class="w" id="w44_3">tipo</span></div></div>
+      <div id="cap45" class="clip cap" data-start="50.85" data-duration="0.94" data-track-index="9"><div class="cap-in" id="capin45"><span class="w" id="w45_0">de</span> <span class="w" id="w45_1">visão</span> <span class="w hl" id="w45_2">integrada</span></div></div>
+      <div id="cap46" class="clip cap" data-start="51.79" data-duration="1.66" data-track-index="9"><div class="cap-in" id="capin46"><span class="w" id="w46_0">que</span> <span class="w" id="w46_1">desenvolvemos</span> <span class="w" id="w46_2">na</span> <span class="w" id="w46_3">pós</span></div></div>
+      <div id="cap47" class="clip cap" data-start="53.45" data-duration="1.02" data-track-index="9"><div class="cap-in" id="capin47"><span class="w" id="w47_0">em</span> <span class="w" id="w47_1">logística</span> <span class="w" id="w47_2">portuária</span></div></div>
+      <div id="cap48" class="clip cap" data-start="54.47" data-duration="1.0" data-track-index="9"><div class="cap-in" id="capin48"><span class="w" id="w48_0">e</span> <span class="w" id="w48_1">direito</span> <span class="w" id="w48_2">marítimo</span></div></div>
+      <div id="cap49" class="clip cap" data-start="55.47" data-duration="1.06" data-track-index="9"><div class="cap-in" id="capin49"><span class="w" id="w49_0">da</span> <span class="w hl" id="w49_1">Navigare.</span></div></div>
+      <div id="cap50" class="clip cap" data-start="56.53" data-duration="0.88" data-track-index="9"><div class="cap-in" id="capin50"><span class="w" id="w50_0">Fale</span> <span class="w" id="w50_1">com</span> <span class="w" id="w50_2">a</span> <span class="w hl" id="w50_3">Navigare</span></div></div>
+      <div id="cap51" class="clip cap" data-start="57.41" data-duration="1.58" data-track-index="9"><div class="cap-in" id="capin51"><span class="w" id="w51_0">e</span> <span class="w" id="w51_1">conheça</span> <span class="w" id="w51_2">a</span> <span class="w" id="w51_3">próxima</span> <span class="w hl" id="w51_4">turma.</span></div></div>
+
+      <!-- SFX discretos -->
+      <audio id="sfx-thud1" src="assets/thud.wav" data-start="0.2" data-duration="0.5" data-track-index="20" data-volume="0.55"></audio>
+      <audio id="sfx-wh1" src="assets/whoosh.wav" data-start="6.35" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-wh2" src="assets/whoosh.wav" data-start="12.4" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-t1" src="assets/tick.wav" data-start="13.4" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t2" src="assets/tick.wav" data-start="14.14" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t3" src="assets/tick.wav" data-start="14.88" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t4" src="assets/tick.wav" data-start="15.32" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t5" src="assets/tick.wav" data-start="16.06" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-thud2" src="assets/thud.wav" data-start="19.3" data-duration="0.5" data-track-index="20" data-volume="0.45"></audio>
+      <audio id="sfx-wh3" src="assets/whoosh.wav" data-start="20.8" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-thud3" src="assets/thud.wav" data-start="23.6" data-duration="0.5" data-track-index="20" data-volume="0.5"></audio>
+      <audio id="sfx-wh4" src="assets/whoosh.wav" data-start="27.05" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-t6" src="assets/tick.wav" data-start="34.3" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t7" src="assets/tick.wav" data-start="36.62" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t8" src="assets/tick.wav" data-start="38.12" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-wh5" src="assets/whoosh.wav" data-start="39.65" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-thud4" src="assets/thud.wav" data-start="48.98" data-duration="0.5" data-track-index="20" data-volume="0.45"></audio>
+      <audio id="sfx-wh6" src="assets/whoosh.wav" data-start="58.75" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- câmera: punch-in/out a cada corte + push lento ----
+      tl.fromTo("#cam",{scale:1.85,x:-279.7,y:97.9},{scale:1.915,x:-289.5,y:105.4,duration:5.22,ease:"none",immediateRender:false},0);
+      tl.fromTo("#cam",{scale:1.3,x:-154.4,y:7.7},{scale:1.345,x:-159.8,y:14.7,duration:3.12,ease:"none",immediateRender:false},5.22);
+      tl.fromTo("#cam",{scale:1.55,x:-83.7,y:16.3},{scale:1.604,x:-86.6,y:23.6,duration:1.78,ease:"none",immediateRender:false},8.34);
+      tl.fromTo("#cam",{scale:1.95,x:-105.3,y:70.1},{scale:2.018,x:-109.0,y:79.3,duration:0.82,ease:"none",immediateRender:false},10.12);
+      tl.fromTo("#cam",{scale:1.35,x:-72.9,y:145.0},{scale:1.397,x:-75.5,y:156.8,duration:9.01,ease:"none",immediateRender:false},10.94);
+      tl.fromTo("#cam",{scale:1.6,x:-86.4,y:207.4},{scale:1.656,x:-89.4,y:221.3,duration:0.15,ease:"none",immediateRender:false},19.95);
+      tl.fromTo("#cam",{scale:1.25,x:-54.0,y:216.0},{scale:1.294,x:-55.9,y:230.3,duration:4.80,ease:"none",immediateRender:false},20.1);
+      tl.fromTo("#cam",{scale:1.7,x:-110.2,y:297.6},{scale:1.759,x:-114.0,y:314.7,duration:1.35,ease:"none",immediateRender:false},24.9);
+      tl.fromTo("#cam",{scale:2.0,x:-21.6,y:-192.0},{scale:2.070,x:-22.4,y:-193.3,duration:4.90,ease:"none",immediateRender:false},26.25);
+      tl.fromTo("#cam",{scale:1.35,x:0.0,y:-192.0},{scale:1.397,x:0.0,y:-192.0,duration:2.37,ease:"none",immediateRender:false},31.15);
+      tl.fromTo("#cam",{scale:1.8,x:0.0,y:49.9},{scale:1.863,x:0.0,y:58.4,duration:0.43,ease:"none",immediateRender:false},33.52);
+      tl.fromTo("#cam",{scale:1.2,x:0.0,y:172.8},{scale:1.242,x:0.0,y:180.9,duration:2.33,ease:"none",immediateRender:false},33.95);
+      tl.fromTo("#cam",{scale:1.25,x:-13.5,y:206.4},{scale:1.294,x:-14.0,y:215.6,duration:2.50,ease:"none",immediateRender:false},36.28);
+      tl.fromTo("#cam",{scale:1.5,x:0.0,y:124.8},{scale:1.552,x:0.0,y:135.9,duration:6.37,ease:"none",immediateRender:false},38.78);
+      tl.fromTo("#cam",{scale:1.2,x:-25.9,y:192.0},{scale:1.242,x:-26.8,y:204.7,duration:3.83,ease:"none",immediateRender:false},45.15);
+      tl.fromTo("#cam",{scale:1.45,x:-31.3,y:248.6},{scale:1.501,x:-32.4,y:259.4,duration:0.70,ease:"none",immediateRender:false},48.98);
+      tl.fromTo("#cam",{scale:1.3,x:-42.1,y:32.6},{scale:1.345,x:-43.6,y:40.5,duration:2.92,ease:"none",immediateRender:false},49.68);
+      tl.fromTo("#cam",{scale:1.2,x:-38.9,y:192.0},{scale:1.242,x:-40.2,y:214.6,duration:3.87,ease:"none",immediateRender:false},52.6);
+      tl.fromTo("#cam",{scale:1.45,x:-47.0,y:111.4},{scale:1.501,x:-48.6,y:115.3,duration:2.52,ease:"none",immediateRender:false},56.47);
+
+      // ---- hook ----
+      const counter = { v: 0 };
+      tl.fromTo("#hook-num", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.15);
+      tl.fromTo(counter, { v: 0 }, { v: 95, duration: 0.45, ease: "power3.out",
+        onUpdate: () => { document.getElementById("hook-num").textContent = Math.round(counter.v) + "%"; } }, 0.15);
+      tl.fromTo("#hook-tag", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+      tl.fromTo("#hook-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 2.05);
+      tl.to("#hook-num", { scale: 1.06, duration: 4.4, ease: "none" }, 0.6);
+      tl.to(["#hook-num", "#hook-sub", "#hook-tag", "#hook-shade"], { opacity: 0, duration: 0.2 }, 4.95);
+
+      // ---- navio ----
+      tl.fromTo("#shipwrap", { x: -620 }, { x: 70, duration: 1.7, ease: "power2.out" }, 6.55);
+      tl.fromTo("#ship-bg", { scale: 1.1 }, { scale: 1, duration: 1.8, ease: "none" }, 6.55);
+
+      // ---- cadeia ----
+      tl.fromTo(["#chain-k", "#chain-t"], { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, stagger: 0.08, ease: "power3.out" }, 12.6);
+      tl.fromTo("#chain-line", { scaleY: 0 }, { scaleY: 1, duration: 3.4, ease: "none" }, 13.3);
+      [13.40, 14.14, 14.88, 15.32, 16.06, 16.5].forEach((t, i) => {
+        tl.fromTo("#n" + i, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "back.out(1.8)" }, t - 0.05);
+      });
+      tl.fromTo("#elnino", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.5)" }, 17.15);
+      tl.set(".node .warn, .node .ring", { opacity: 0, scale: 0.4 }, 12.6);
+      tl.to(".node .warn", { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, 19.3);
+      tl.to(".node .ring", { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 19.3);
+      tl.fromTo(["#n0", "#n1", "#n2", "#n3", "#n4"], { x: 0 }, { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, 19.3);
+
+      // ---- sul ----
+      tl.fromTo("#sul-t", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 21.0);
+      tl.fromTo("#sul-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 21.1);
+      tl.fromTo(".drop", { y: 0 }, { y: 420, duration: 0.55, ease: "none", repeat: 6 }, 21.0);
+      tl.fromTo("#sul-fill", { scaleY: 0.25 }, { scaleY: 0.92, duration: 2.0, ease: "power1.inOut" }, 21.1);
+      tl.fromTo("#sul-tag", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 22.55);
+      tl.fromTo("#stamp", { scale: 1.8, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: -6, duration: 0.22, ease: "power4.in" }, 23.42);
+
+      // ---- norte ----
+      tl.fromTo("#norte-t", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 27.25);
+      tl.fromTo("#norte-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 27.35);
+      tl.fromTo("#sun", { scale: 0.7 }, { scale: 1.05, duration: 3.9, ease: "sine.out" }, 27.25);
+      tl.fromTo("#norte-fill", { scaleY: 0.78 }, { scaleY: 0.16, duration: 2.1, ease: "power1.inOut" }, 27.6);
+      tl.fromTo("#hullwrap", { y: 620 * 0.22 - 50 }, { y: 620 * 0.84 - 50, duration: 2.1, ease: "power1.inOut" }, 27.6);
+      tl.fromTo("#norte-tag", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 29.1);
+      tl.fromTo("#norte-tag2", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 29.95);
+
+      // ---- custo ----
+      tl.fromTo("#cost-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 34.1);
+      tl.set(["#st1", "#st2", "#ar0", "#ar1"], { opacity: 0 }, 34.1);
+      tl.fromTo("#st0", { scale: 0.7 }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 34.3);
+      tl.fromTo(["#ar0", "#st1"], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.05, ease: "power3.out" }, 36.6);
+      tl.fromTo(["#ar1", "#st2"], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.05, ease: "power3.out" }, 38.05);
+      tl.fromTo("#st2", { scale: 1 }, { scale: 1.1, duration: 0.15, yoyo: true, repeat: 1 }, 38.35);
+
+      // ---- contrato ----
+      tl.fromTo("#paper", { y: 120, rotation: 4, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 0.4, ease: "power3.out" }, 39.85);
+      [39.94, 40.64, 41.48, 42.06, 44.26].forEach((t, i) => {
+        tl.fromTo("#cl" + i + " .mk", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, t);
+      });
+      tl.fromTo("#paper", { scale: 1 }, { scale: 1.05, duration: 4.8, ease: "none" }, 40.25);
+
+      // ---- riscos ----
+      tl.fromTo("#risk-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 45.2);
+      [47.08, 48.12, 48.98].forEach((t, i) => {
+        tl.fromTo("#ch" + i, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "back.out(2.5)" }, t - 0.05);
+      });
+
+      // ---- pós + cta ----
+      tl.fromTo("#pos-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 52.6);
+      tl.fromTo("#pos-title", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 53.5);
+      tl.fromTo("#pos-brand", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 55.6);
+      tl.fromTo("#cta-pill", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, 57.6);
+
+      // ---- end ----
+      tl.fromTo("#end-brand", { scale: 1.15, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 58.95);
+      tl.fromTo(["#end-sub", "#end-pill"], { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: "power3.out" }, 59.1);
+
+      // ---- legendas ----
+      tl.fromTo("#capin0",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},0.0);
+      tl.fromTo("#w0_0",{opacity:0.55},{opacity:1,duration:0.08},0);
+      tl.fromTo("#w0_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},0);
+      tl.fromTo("#w0_1",{opacity:0.55},{opacity:1,duration:0.08},0.24);
+      tl.fromTo("#w0_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},0.24);
+      tl.fromTo("#capin1",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},1.15);
+      tl.fromTo("#w1_0",{opacity:0.55},{opacity:1,duration:0.08},1.2);
+      tl.fromTo("#w1_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},1.2);
+      tl.fromTo("#w1_1",{opacity:0.55},{opacity:1,duration:0.08},1.42);
+      tl.fromTo("#w1_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},1.42);
+      tl.fromTo("#w1_2",{opacity:0.55},{opacity:1,duration:0.08},1.76);
+      tl.fromTo("#w1_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},1.76);
+      tl.fromTo("#w1_3",{opacity:0.55},{opacity:1,duration:0.08},2.08);
+      tl.fromTo("#w1_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},2.08);
+      tl.fromTo("#capin2",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},2.27);
+      tl.fromTo("#w2_0",{opacity:0.55},{opacity:1,duration:0.08},2.32);
+      tl.fromTo("#w2_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},2.32);
+      tl.fromTo("#w2_1",{opacity:0.55},{opacity:1,duration:0.08},2.7);
+      tl.fromTo("#w2_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},2.7);
+      tl.fromTo("#w2_2",{opacity:0.55},{opacity:1,duration:0.08},2.82);
+      tl.fromTo("#w2_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},2.82);
+      tl.fromTo("#capin3",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},3.15);
+      tl.fromTo("#w3_0",{opacity:0.55},{opacity:1,duration:0.08},3.2);
+      tl.fromTo("#w3_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},3.2);
+      tl.fromTo("#w3_1",{opacity:0.55},{opacity:1,duration:0.08},3.52);
+      tl.fromTo("#w3_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},3.52);
+      tl.fromTo("#capin4",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},3.91);
+      tl.fromTo("#w4_0",{opacity:0.55},{opacity:1,duration:0.08},3.96);
+      tl.fromTo("#w4_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},3.96);
+      tl.fromTo("#w4_1",{opacity:0.55},{opacity:1,duration:0.08},4.22);
+      tl.fromTo("#w4_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},4.22);
+      tl.fromTo("#w4_2",{opacity:0.55},{opacity:1,duration:0.08},4.68);
+      tl.fromTo("#w4_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},4.68);
+      tl.fromTo("#capin5",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},5.25);
+      tl.fromTo("#w5_0",{opacity:0.55},{opacity:1,duration:0.08},5.3);
+      tl.fromTo("#w5_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},5.3);
+      tl.fromTo("#w5_1",{opacity:0.55},{opacity:1,duration:0.08},5.42);
+      tl.fromTo("#w5_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},5.42);
+      tl.fromTo("#w5_2",{opacity:0.55},{opacity:1,duration:0.08},5.52);
+      tl.fromTo("#w5_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},5.52);
+      tl.fromTo("#w5_3",{opacity:0.55},{opacity:1,duration:0.08},5.66);
+      tl.fromTo("#w5_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},5.66);
+      tl.fromTo("#w5_4",{opacity:0.55},{opacity:1,duration:0.08},5.94);
+      tl.fromTo("#w5_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},5.94);
+      tl.fromTo("#capin6",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},6.13);
+      tl.fromTo("#w6_0",{opacity:0.55},{opacity:1,duration:0.08},6.18);
+      tl.fromTo("#w6_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.18);
+      tl.fromTo("#w6_1",{opacity:0.55},{opacity:1,duration:0.08},6.3);
+      tl.fromTo("#w6_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.3);
+      tl.fromTo("#w6_2",{opacity:0.55},{opacity:1,duration:0.08},6.42);
+      tl.fromTo("#w6_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.42);
+      tl.fromTo("#w6_3",{opacity:0.55},{opacity:1,duration:0.08},6.56);
+      tl.fromTo("#w6_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.56);
+      tl.fromTo("#w6_4",{opacity:0.55},{opacity:1,duration:0.08},6.64);
+      tl.fromTo("#w6_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.64);
+      tl.fromTo("#capin7",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},6.79);
+      tl.fromTo("#w7_0",{opacity:0.55},{opacity:1,duration:0.08},6.84);
+      tl.fromTo("#w7_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},6.84);
+      tl.fromTo("#w7_1",{opacity:0.55},{opacity:1,duration:0.08},7.14);
+      tl.fromTo("#w7_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},7.14);
+      tl.fromTo("#w7_2",{opacity:0.55},{opacity:1,duration:0.08},7.22);
+      tl.fromTo("#w7_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},7.22);
+      tl.fromTo("#w7_3",{opacity:0.55},{opacity:1,duration:0.08},7.32);
+      tl.fromTo("#w7_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},7.32);
+      tl.fromTo("#w7_4",{opacity:0.55},{opacity:1,duration:0.08},7.68);
+      tl.fromTo("#w7_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},7.68);
+      tl.fromTo("#capin8",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},8.37);
+      tl.fromTo("#w8_0",{opacity:0.55},{opacity:1,duration:0.08},8.42);
+      tl.fromTo("#w8_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},8.42);
+      tl.fromTo("#w8_1",{opacity:0.55},{opacity:1,duration:0.08},8.56);
+      tl.fromTo("#w8_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},8.56);
+      tl.fromTo("#w8_2",{opacity:0.55},{opacity:1,duration:0.08},8.72);
+      tl.fromTo("#w8_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},8.72);
+      tl.fromTo("#capin9",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},9.07);
+      tl.fromTo("#w9_0",{opacity:0.55},{opacity:1,duration:0.08},9.12);
+      tl.fromTo("#w9_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},9.12);
+      tl.fromTo("#w9_1",{opacity:0.55},{opacity:1,duration:0.08},9.26);
+      tl.fromTo("#w9_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},9.26);
+      tl.fromTo("#w9_2",{opacity:0.55},{opacity:1,duration:0.08},9.66);
+      tl.fromTo("#w9_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},9.66);
+      tl.fromTo("#w9_3",{opacity:0.55},{opacity:1,duration:0.08},9.92);
+      tl.fromTo("#w9_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},9.92);
+      tl.fromTo("#w9_4",{opacity:0.55},{opacity:1,duration:0.08},10.12);
+      tl.fromTo("#w9_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},10.12);
+      tl.fromTo("#capin10",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},10.99);
+      tl.fromTo("#w10_0",{opacity:0.55},{opacity:1,duration:0.08},11.04);
+      tl.fromTo("#w10_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},11.04);
+      tl.fromTo("#w10_1",{opacity:0.55},{opacity:1,duration:0.08},11.24);
+      tl.fromTo("#w10_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},11.24);
+      tl.fromTo("#w10_2",{opacity:0.55},{opacity:1,duration:0.08},11.44);
+      tl.fromTo("#w10_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},11.44);
+      tl.fromTo("#w10_3",{opacity:0.55},{opacity:1,duration:0.08},11.74);
+      tl.fromTo("#w10_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},11.74);
+      tl.fromTo("#capin11",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},12.01);
+      tl.fromTo("#w11_0",{opacity:0.55},{opacity:1,duration:0.08},12.06);
+      tl.fromTo("#w11_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},12.06);
+      tl.fromTo("#w11_1",{opacity:0.55},{opacity:1,duration:0.08},12.28);
+      tl.fromTo("#w11_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},12.28);
+      tl.fromTo("#capin12",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},12.59);
+      tl.fromTo("#w12_0",{opacity:0.55},{opacity:1,duration:0.08},12.64);
+      tl.fromTo("#w12_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},12.64);
+      tl.fromTo("#w12_1",{opacity:0.55},{opacity:1,duration:0.08},12.76);
+      tl.fromTo("#w12_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},12.76);
+      tl.fromTo("#w12_2",{opacity:0.55},{opacity:1,duration:0.08},12.96);
+      tl.fromTo("#w12_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},12.96);
+      tl.fromTo("#w12_3",{opacity:0.55},{opacity:1,duration:0.08},13.18);
+      tl.fromTo("#w12_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},13.18);
+      tl.fromTo("#capin13",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},13.35);
+      tl.fromTo("#w13_0",{opacity:0.55},{opacity:1,duration:0.08},13.4);
+      tl.fromTo("#w13_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},13.4);
+      tl.fromTo("#capin14",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},14.09);
+      tl.fromTo("#w14_0",{opacity:0.55},{opacity:1,duration:0.08},14.14);
+      tl.fromTo("#w14_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},14.14);
+      tl.fromTo("#capin15",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},14.83);
+      tl.fromTo("#w15_0",{opacity:0.55},{opacity:1,duration:0.08},14.88);
+      tl.fromTo("#w15_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},14.88);
+      tl.fromTo("#capin16",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},15.27);
+      tl.fromTo("#w16_0",{opacity:0.55},{opacity:1,duration:0.08},15.32);
+      tl.fromTo("#w16_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},15.32);
+      tl.fromTo("#w16_1",{opacity:0.55},{opacity:1,duration:0.08},15.96);
+      tl.fromTo("#w16_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},15.96);
+      tl.fromTo("#w16_2",{opacity:0.55},{opacity:1,duration:0.08},16.06);
+      tl.fromTo("#w16_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},16.06);
+      tl.fromTo("#capin17",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},16.87);
+      tl.fromTo("#w17_0",{opacity:0.55},{opacity:1,duration:0.08},16.92);
+      tl.fromTo("#w17_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},16.92);
+      tl.fromTo("#w17_1",{opacity:0.55},{opacity:1,duration:0.08},17.08);
+      tl.fromTo("#w17_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},17.08);
+      tl.fromTo("#w17_2",{opacity:0.55},{opacity:1,duration:0.08},17.14);
+      tl.fromTo("#w17_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},17.14);
+      tl.fromTo("#capin18",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},17.57);
+      tl.fromTo("#w18_0",{opacity:0.55},{opacity:1,duration:0.08},17.62);
+      tl.fromTo("#w18_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},17.62);
+      tl.fromTo("#w18_1",{opacity:0.55},{opacity:1,duration:0.08},17.76);
+      tl.fromTo("#w18_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},17.76);
+      tl.fromTo("#w18_2",{opacity:0.55},{opacity:1,duration:0.08},18.08);
+      tl.fromTo("#w18_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},18.08);
+      tl.fromTo("#w18_3",{opacity:0.55},{opacity:1,duration:0.08},18.54);
+      tl.fromTo("#w18_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},18.54);
+      tl.fromTo("#w18_4",{opacity:0.55},{opacity:1,duration:0.08},18.76);
+      tl.fromTo("#w18_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},18.76);
+      tl.fromTo("#capin19",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},19.03);
+      tl.fromTo("#w19_0",{opacity:0.55},{opacity:1,duration:0.08},19.08);
+      tl.fromTo("#w19_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},19.08);
+      tl.fromTo("#w19_1",{opacity:0.55},{opacity:1,duration:0.08},19.3);
+      tl.fromTo("#w19_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},19.3);
+      tl.fromTo("#w19_2",{opacity:0.55},{opacity:1,duration:0.08},19.5);
+      tl.fromTo("#w19_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},19.5);
+      tl.fromTo("#capin20",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},20.13);
+      tl.fromTo("#w20_0",{opacity:0.55},{opacity:1,duration:0.08},20.18);
+      tl.fromTo("#w20_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},20.18);
+      tl.fromTo("#w20_1",{opacity:0.55},{opacity:1,duration:0.08},20.32);
+      tl.fromTo("#w20_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},20.32);
+      tl.fromTo("#w20_2",{opacity:0.55},{opacity:1,duration:0.08},20.48);
+      tl.fromTo("#w20_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},20.48);
+      tl.fromTo("#w20_3",{opacity:0.55},{opacity:1,duration:0.08},20.6);
+      tl.fromTo("#w20_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},20.6);
+      tl.fromTo("#capin21",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},20.99);
+      tl.fromTo("#w21_0",{opacity:0.55},{opacity:1,duration:0.08},21.04);
+      tl.fromTo("#w21_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},21.04);
+      tl.fromTo("#w21_1",{opacity:0.55},{opacity:1,duration:0.08},21.5);
+      tl.fromTo("#w21_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},21.5);
+      tl.fromTo("#w21_2",{opacity:0.55},{opacity:1,duration:0.08},22);
+      tl.fromTo("#w21_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},22);
+      tl.fromTo("#w21_3",{opacity:0.55},{opacity:1,duration:0.08},22.3);
+      tl.fromTo("#w21_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},22.3);
+      tl.fromTo("#w21_4",{opacity:0.55},{opacity:1,duration:0.08},22.56);
+      tl.fromTo("#w21_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},22.56);
+      tl.fromTo("#capin22",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},23.01);
+      tl.fromTo("#w22_0",{opacity:0.55},{opacity:1,duration:0.08},23.06);
+      tl.fromTo("#w22_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},23.06);
+      tl.fromTo("#w22_1",{opacity:0.55},{opacity:1,duration:0.08},23.34);
+      tl.fromTo("#w22_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},23.34);
+      tl.fromTo("#w22_2",{opacity:0.55},{opacity:1,duration:0.08},23.6);
+      tl.fromTo("#w22_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},23.6);
+      tl.fromTo("#capin23",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},24.11);
+      tl.fromTo("#w23_0",{opacity:0.55},{opacity:1,duration:0.08},24.16);
+      tl.fromTo("#w23_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},24.16);
+      tl.fromTo("#w23_1",{opacity:0.55},{opacity:1,duration:0.08},24.8);
+      tl.fromTo("#w23_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},24.8);
+      tl.fromTo("#w23_2",{opacity:0.55},{opacity:1,duration:0.08},25.32);
+      tl.fromTo("#w23_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},25.32);
+      tl.fromTo("#capin24",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},26.15);
+      tl.fromTo("#w24_0",{opacity:0.55},{opacity:1,duration:0.08},26.2);
+      tl.fromTo("#w24_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},26.2);
+      tl.fromTo("#w24_1",{opacity:0.55},{opacity:1,duration:0.08},26.64);
+      tl.fromTo("#w24_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},26.64);
+      tl.fromTo("#w24_2",{opacity:0.55},{opacity:1,duration:0.08},26.78);
+      tl.fromTo("#w24_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},26.78);
+      tl.fromTo("#capin25",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},27.27);
+      tl.fromTo("#w25_0",{opacity:0.55},{opacity:1,duration:0.08},27.32);
+      tl.fromTo("#w25_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},27.32);
+      tl.fromTo("#w25_1",{opacity:0.55},{opacity:1,duration:0.08},27.5);
+      tl.fromTo("#w25_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},27.5);
+      tl.fromTo("#w25_2",{opacity:0.55},{opacity:1,duration:0.08},27.92);
+      tl.fromTo("#w25_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},27.92);
+      tl.fromTo("#w25_3",{opacity:0.55},{opacity:1,duration:0.08},28.14);
+      tl.fromTo("#w25_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},28.14);
+      tl.fromTo("#capin26",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},28.49);
+      tl.fromTo("#w26_0",{opacity:0.55},{opacity:1,duration:0.08},28.54);
+      tl.fromTo("#w26_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},28.54);
+      tl.fromTo("#w26_1",{opacity:0.55},{opacity:1,duration:0.08},28.6);
+      tl.fromTo("#w26_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},28.6);
+      tl.fromTo("#w26_2",{opacity:0.55},{opacity:1,duration:0.08},28.86);
+      tl.fromTo("#w26_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},28.86);
+      tl.fromTo("#w26_3",{opacity:0.55},{opacity:1,duration:0.08},29.12);
+      tl.fromTo("#w26_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},29.12);
+      tl.fromTo("#capin27",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},29.33);
+      tl.fromTo("#w27_0",{opacity:0.55},{opacity:1,duration:0.08},29.38);
+      tl.fromTo("#w27_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},29.38);
+      tl.fromTo("#w27_1",{opacity:0.55},{opacity:1,duration:0.08},29.54);
+      tl.fromTo("#w27_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},29.54);
+      tl.fromTo("#w27_2",{opacity:0.55},{opacity:1,duration:0.08},30);
+      tl.fromTo("#w27_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},30);
+      tl.fromTo("#w27_3",{opacity:0.55},{opacity:1,duration:0.08},30.26);
+      tl.fromTo("#w27_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},30.26);
+      tl.fromTo("#capin28",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},31.37);
+      tl.fromTo("#w28_0",{opacity:0.55},{opacity:1,duration:0.08},31.42);
+      tl.fromTo("#w28_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},31.42);
+      tl.fromTo("#w28_1",{opacity:0.55},{opacity:1,duration:0.08},31.52);
+      tl.fromTo("#w28_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},31.52);
+      tl.fromTo("#w28_2",{opacity:0.55},{opacity:1,duration:0.08},31.62);
+      tl.fromTo("#w28_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},31.62);
+      tl.fromTo("#w28_3",{opacity:0.55},{opacity:1,duration:0.08},31.92);
+      tl.fromTo("#w28_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},31.92);
+      tl.fromTo("#capin29",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},32.17);
+      tl.fromTo("#w29_0",{opacity:0.55},{opacity:1,duration:0.08},32.22);
+      tl.fromTo("#w29_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},32.22);
+      tl.fromTo("#w29_1",{opacity:0.55},{opacity:1,duration:0.08},32.28);
+      tl.fromTo("#w29_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},32.28);
+      tl.fromTo("#w29_2",{opacity:0.55},{opacity:1,duration:0.08},32.5);
+      tl.fromTo("#w29_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},32.5);
+      tl.fromTo("#w29_3",{opacity:0.55},{opacity:1,duration:0.08},32.72);
+      tl.fromTo("#w29_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},32.72);
+      tl.fromTo("#w29_4",{opacity:0.55},{opacity:1,duration:0.08},32.86);
+      tl.fromTo("#w29_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},32.86);
+      tl.fromTo("#capin30",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},32.95);
+      tl.fromTo("#w30_0",{opacity:0.55},{opacity:1,duration:0.08},33);
+      tl.fromTo("#w30_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},33);
+      tl.fromTo("#w30_1",{opacity:0.55},{opacity:1,duration:0.08},33.24);
+      tl.fromTo("#w30_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},33.24);
+      tl.fromTo("#w30_2",{opacity:0.55},{opacity:1,duration:0.08},33.52);
+      tl.fromTo("#w30_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},33.52);
+      tl.fromTo("#capin31",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},34.11);
+      tl.fromTo("#w31_0",{opacity:0.55},{opacity:1,duration:0.08},34.16);
+      tl.fromTo("#w31_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},34.16);
+      tl.fromTo("#w31_1",{opacity:0.55},{opacity:1,duration:0.08},34.22);
+      tl.fromTo("#w31_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},34.22);
+      tl.fromTo("#w31_2",{opacity:0.55},{opacity:1,duration:0.08},34.3);
+      tl.fromTo("#w31_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},34.3);
+      tl.fromTo("#w31_3",{opacity:0.55},{opacity:1,duration:0.08},34.48);
+      tl.fromTo("#w31_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},34.48);
+      tl.fromTo("#capin32",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},35.17);
+      tl.fromTo("#w32_0",{opacity:0.55},{opacity:1,duration:0.08},35.22);
+      tl.fromTo("#w32_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},35.22);
+      tl.fromTo("#w32_1",{opacity:0.55},{opacity:1,duration:0.08},35.26);
+      tl.fromTo("#w32_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},35.26);
+      tl.fromTo("#w32_2",{opacity:0.55},{opacity:1,duration:0.08},35.5);
+      tl.fromTo("#w32_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},35.5);
+      tl.fromTo("#w32_3",{opacity:0.55},{opacity:1,duration:0.08},35.8);
+      tl.fromTo("#w32_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},35.8);
+      tl.fromTo("#capin33",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},36.33);
+      tl.fromTo("#w33_0",{opacity:0.55},{opacity:1,duration:0.08},36.38);
+      tl.fromTo("#w33_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},36.38);
+      tl.fromTo("#w33_1",{opacity:0.55},{opacity:1,duration:0.08},36.48);
+      tl.fromTo("#w33_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},36.48);
+      tl.fromTo("#w33_2",{opacity:0.55},{opacity:1,duration:0.08},36.52);
+      tl.fromTo("#w33_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},36.52);
+      tl.fromTo("#w33_3",{opacity:0.55},{opacity:1,duration:0.08},36.62);
+      tl.fromTo("#w33_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},36.62);
+      tl.fromTo("#w33_4",{opacity:0.55},{opacity:1,duration:0.08},36.8);
+      tl.fromTo("#w33_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},36.8);
+      tl.fromTo("#capin34",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},37.35);
+      tl.fromTo("#w34_0",{opacity:0.55},{opacity:1,duration:0.08},37.4);
+      tl.fromTo("#w34_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},37.4);
+      tl.fromTo("#w34_1",{opacity:0.55},{opacity:1,duration:0.08},37.62);
+      tl.fromTo("#w34_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},37.62);
+      tl.fromTo("#w34_2",{opacity:0.55},{opacity:1,duration:0.08},37.82);
+      tl.fromTo("#w34_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},37.82);
+      tl.fromTo("#w34_3",{opacity:0.55},{opacity:1,duration:0.08},38.12);
+      tl.fromTo("#w34_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},38.12);
+      tl.fromTo("#capin35",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},38.89);
+      tl.fromTo("#w35_0",{opacity:0.55},{opacity:1,duration:0.08},38.94);
+      tl.fromTo("#w35_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},38.94);
+      tl.fromTo("#w35_1",{opacity:0.55},{opacity:1,duration:0.08},39.04);
+      tl.fromTo("#w35_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},39.04);
+      tl.fromTo("#w35_2",{opacity:0.55},{opacity:1,duration:0.08},39.16);
+      tl.fromTo("#w35_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},39.16);
+      tl.fromTo("#w35_3",{opacity:0.55},{opacity:1,duration:0.08},39.42);
+      tl.fromTo("#w35_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},39.42);
+      tl.fromTo("#w35_4",{opacity:0.55},{opacity:1,duration:0.08},39.72);
+      tl.fromTo("#w35_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},39.72);
+      tl.fromTo("#capin36",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},39.89);
+      tl.fromTo("#w36_0",{opacity:0.55},{opacity:1,duration:0.08},39.94);
+      tl.fromTo("#w36_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},39.94);
+      tl.fromTo("#capin37",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},40.59);
+      tl.fromTo("#w37_0",{opacity:0.55},{opacity:1,duration:0.08},40.64);
+      tl.fromTo("#w37_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},40.64);
+      tl.fromTo("#capin38",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},41.43);
+      tl.fromTo("#w38_0",{opacity:0.55},{opacity:1,duration:0.08},41.48);
+      tl.fromTo("#w38_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},41.48);
+      tl.fromTo("#capin39",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},42.01);
+      tl.fromTo("#w39_0",{opacity:0.55},{opacity:1,duration:0.08},42.06);
+      tl.fromTo("#w39_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},42.06);
+      tl.fromTo("#w39_1",{opacity:0.55},{opacity:1,duration:0.08},42.96);
+      tl.fromTo("#w39_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},42.96);
+      tl.fromTo("#capin40",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},43.57);
+      tl.fromTo("#w40_0",{opacity:0.55},{opacity:1,duration:0.08},43.62);
+      tl.fromTo("#w40_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},43.62);
+      tl.fromTo("#w40_1",{opacity:0.55},{opacity:1,duration:0.08},44.06);
+      tl.fromTo("#w40_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},44.06);
+      tl.fromTo("#w40_2",{opacity:0.55},{opacity:1,duration:0.08},44.26);
+      tl.fromTo("#w40_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},44.26);
+      tl.fromTo("#capin41",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},45.25);
+      tl.fromTo("#w41_0",{opacity:0.55},{opacity:1,duration:0.08},45.3);
+      tl.fromTo("#w41_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},45.3);
+      tl.fromTo("#w41_1",{opacity:0.55},{opacity:1,duration:0.08},45.36);
+      tl.fromTo("#w41_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},45.36);
+      tl.fromTo("#w41_2",{opacity:0.55},{opacity:1,duration:0.08},45.52);
+      tl.fromTo("#w41_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},45.52);
+      tl.fromTo("#w41_3",{opacity:0.55},{opacity:1,duration:0.08},46.02);
+      tl.fromTo("#w41_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},46.02);
+      tl.fromTo("#capin42",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},46.55);
+      tl.fromTo("#w42_0",{opacity:0.55},{opacity:1,duration:0.08},46.6);
+      tl.fromTo("#w42_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},46.6);
+      tl.fromTo("#w42_1",{opacity:0.55},{opacity:1,duration:0.08},47.08);
+      tl.fromTo("#w42_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},47.08);
+      tl.fromTo("#capin43",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},48.07);
+      tl.fromTo("#w43_0",{opacity:0.55},{opacity:1,duration:0.08},48.12);
+      tl.fromTo("#w43_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},48.12);
+      tl.fromTo("#w43_1",{opacity:0.55},{opacity:1,duration:0.08},48.72);
+      tl.fromTo("#w43_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},48.72);
+      tl.fromTo("#w43_2",{opacity:0.55},{opacity:1,duration:0.08},48.98);
+      tl.fromTo("#w43_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},48.98);
+      tl.fromTo("#capin44",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},49.81);
+      tl.fromTo("#w44_0",{opacity:0.55},{opacity:1,duration:0.08},49.86);
+      tl.fromTo("#w44_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},49.86);
+      tl.fromTo("#w44_1",{opacity:0.55},{opacity:1,duration:0.08},49.9);
+      tl.fromTo("#w44_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},49.9);
+      tl.fromTo("#w44_2",{opacity:0.55},{opacity:1,duration:0.08},50.24);
+      tl.fromTo("#w44_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},50.24);
+      tl.fromTo("#w44_3",{opacity:0.55},{opacity:1,duration:0.08},50.62);
+      tl.fromTo("#w44_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},50.62);
+      tl.fromTo("#capin45",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},50.85);
+      tl.fromTo("#w45_0",{opacity:0.55},{opacity:1,duration:0.08},50.9);
+      tl.fromTo("#w45_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},50.9);
+      tl.fromTo("#w45_1",{opacity:0.55},{opacity:1,duration:0.08},51.02);
+      tl.fromTo("#w45_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},51.02);
+      tl.fromTo("#w45_2",{opacity:0.55},{opacity:1,duration:0.08},51.28);
+      tl.fromTo("#w45_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},51.28);
+      tl.fromTo("#capin46",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},51.79);
+      tl.fromTo("#w46_0",{opacity:0.55},{opacity:1,duration:0.08},51.84);
+      tl.fromTo("#w46_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},51.84);
+      tl.fromTo("#w46_1",{opacity:0.55},{opacity:1,duration:0.08},52);
+      tl.fromTo("#w46_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},52);
+      tl.fromTo("#w46_2",{opacity:0.55},{opacity:1,duration:0.08},52.68);
+      tl.fromTo("#w46_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},52.68);
+      tl.fromTo("#w46_3",{opacity:0.55},{opacity:1,duration:0.08},52.84);
+      tl.fromTo("#w46_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},52.84);
+      tl.fromTo("#capin47",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},53.45);
+      tl.fromTo("#w47_0",{opacity:0.55},{opacity:1,duration:0.08},53.5);
+      tl.fromTo("#w47_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},53.5);
+      tl.fromTo("#w47_1",{opacity:0.55},{opacity:1,duration:0.08},53.64);
+      tl.fromTo("#w47_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},53.64);
+      tl.fromTo("#w47_2",{opacity:0.55},{opacity:1,duration:0.08},54.02);
+      tl.fromTo("#w47_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},54.02);
+      tl.fromTo("#capin48",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},54.47);
+      tl.fromTo("#w48_0",{opacity:0.55},{opacity:1,duration:0.08},54.52);
+      tl.fromTo("#w48_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},54.52);
+      tl.fromTo("#w48_1",{opacity:0.55},{opacity:1,duration:0.08},54.78);
+      tl.fromTo("#w48_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},54.78);
+      tl.fromTo("#w48_2",{opacity:0.55},{opacity:1,duration:0.08},55.02);
+      tl.fromTo("#w48_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},55.02);
+      tl.fromTo("#capin49",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},55.47);
+      tl.fromTo("#w49_0",{opacity:0.55},{opacity:1,duration:0.08},55.52);
+      tl.fromTo("#w49_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},55.52);
+      tl.fromTo("#w49_1",{opacity:0.55},{opacity:1,duration:0.08},55.72);
+      tl.fromTo("#w49_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},55.72);
+      tl.fromTo("#capin50",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},56.53);
+      tl.fromTo("#w50_0",{opacity:0.55},{opacity:1,duration:0.08},56.58);
+      tl.fromTo("#w50_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},56.58);
+      tl.fromTo("#w50_1",{opacity:0.55},{opacity:1,duration:0.08},56.78);
+      tl.fromTo("#w50_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},56.78);
+      tl.fromTo("#w50_2",{opacity:0.55},{opacity:1,duration:0.08},56.94);
+      tl.fromTo("#w50_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},56.94);
+      tl.fromTo("#w50_3",{opacity:0.55},{opacity:1,duration:0.08},56.98);
+      tl.fromTo("#w50_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},56.98);
+      tl.fromTo("#capin51",{scale:0.86,opacity:0,y:18},{scale:1,opacity:1,y:0,duration:0.16,ease:"back.out(2.2)"},57.41);
+      tl.fromTo("#w51_0",{opacity:0.55},{opacity:1,duration:0.08},57.46);
+      tl.fromTo("#w51_0",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},57.46);
+      tl.fromTo("#w51_1",{opacity:0.55},{opacity:1,duration:0.08},57.68);
+      tl.fromTo("#w51_1",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},57.68);
+      tl.fromTo("#w51_2",{opacity:0.55},{opacity:1,duration:0.08},58.06);
+      tl.fromTo("#w51_2",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},58.06);
+      tl.fromTo("#w51_3",{opacity:0.55},{opacity:1,duration:0.08},58.22);
+      tl.fromTo("#w51_3",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},58.22);
+      tl.fromTo("#w51_4",{opacity:0.55},{opacity:1,duration:0.08},58.42);
+      tl.fromTo("#w51_4",{scale:1},{scale:1.12,duration:0.09,yoyo:true,repeat:1,ease:"power2.out"},58.42);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

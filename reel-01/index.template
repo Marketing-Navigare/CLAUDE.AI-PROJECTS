@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #0f1e3d;
+        --navy2: #182c56;
+        --ink: #0b1428;
+        --paper: #f4efe4;
+        --amber: #f2b134;
+        --red: #e5533d;
+        --fg: #f7f4ec;
+        --muted: #b9c3d8;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+      body { font-family: "Montserrat", sans-serif; color: var(--fg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      .full { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #cam { position: absolute; inset: 0; width: 1080px; height: 1920px; transform-origin: 50% 50%; }
+      #a-roll { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* legendas */
+      .cap { position: absolute; left: 0; top: 1170px; width: 1080px; height: 260px; }
+      .cap-in { position: absolute; left: 70px; right: 70px; top: 0; text-align: center; font-weight: 900;
+        font-size: 66px; line-height: 1.12; text-transform: uppercase; letter-spacing: -0.5px; }
+      .w { display: inline-block; color: #ffffff; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+      .w.hl { color: var(--amber); }
+
+      /* sombreamento superior para textos sobre o vídeo */
+      .topshade { position: absolute; left: 0; top: 0; width: 1080px; height: 760px;
+        background: linear-gradient(180deg, rgba(11,20,40,0.88) 0%, rgba(11,20,40,0.55) 55%, rgba(11,20,40,0) 100%); }
+
+      /* hook */
+      #hook-num { position: absolute; left: 0; top: 150px; width: 1080px; text-align: center; font-family: "Archivo Black";
+        font-size: 300px; line-height: 1; color: var(--amber); letter-spacing: -8px; }
+      #hook-sub { position: absolute; left: 90px; top: 470px; width: 900px; text-align: center; font-weight: 900;
+        font-size: 50px; line-height: 1.15; text-transform: uppercase; }
+      #hook-tag { position: absolute; left: 340px; top: 100px; width: 400px; height: 52px; border-radius: 26px;
+        background: var(--red); color: #fff; font-weight: 700; font-size: 26px; letter-spacing: 3px; text-align: center; line-height: 52px; }
+
+      /* fundos de cutaway */
+      .bg { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 30%, var(--navy2) 0%, var(--navy) 55%, var(--ink) 100%); }
+      .grid { position: absolute; inset: 0; opacity: 0.09;
+        background-image: linear-gradient(var(--muted) 1px, transparent 1px), linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+        background-size: 90px 90px; }
+      .kicker { position: absolute; left: 90px; top: 170px; width: 900px; font-weight: 700; font-size: 30px;
+        letter-spacing: 4px; text-transform: uppercase; color: var(--amber); }
+      .title { position: absolute; left: 90px; top: 220px; width: 900px; font-weight: 900; font-size: 58px; line-height: 1.1; }
+
+      /* navio */
+      #sea { position: absolute; left: 0; top: 760px; width: 1080px; height: 400px;
+        background: linear-gradient(180deg, #1f4a7a 0%, #10284a 100%); }
+      #quay { position: absolute; left: 760px; top: 640px; width: 320px; height: 140px; background: #6b7a90; }
+      .crane { position: absolute; top: 330px; width: 16px; height: 320px; background: var(--amber); }
+      .crane-arm { position: absolute; top: 330px; height: 16px; width: 260px; background: var(--amber); }
+      #shipwrap { position: absolute; left: 0; top: 560px; width: 700px; height: 260px; }
+      #ship-label { position: absolute; left: 90px; top: 1000px; width: 900px; font-weight: 900; font-size: 64px; text-transform: uppercase; }
+
+      /* cadeia logística */
+      .node { position: absolute; left: 110px; width: 860px; height: 112px; }
+      .node .ic { position: absolute; left: 0; top: 0; width: 112px; height: 112px; border-radius: 56px; background: var(--navy2);
+        border: 4px solid var(--muted); }
+      .node .ic svg { position: absolute; left: 22px; top: 22px; width: 60px; height: 60px; }
+      .node .lb { position: absolute; left: 150px; top: 24px; width: 560px; font-weight: 900; font-size: 56px; line-height: 64px; text-transform: uppercase; }
+      .node .warn { position: absolute; left: 740px; top: 18px; width: 76px; height: 76px; border-radius: 38px; background: var(--red);
+        color: #fff; font-weight: 900; font-size: 54px; line-height: 76px; text-align: center; }
+      .node .ring { position: absolute; left: -4px; top: -4px; width: 120px; height: 120px; border-radius: 60px; border: 6px solid var(--red); }
+      #chain-line { position: absolute; left: 164px; top: 400px; width: 6px; height: 720px; background: var(--muted); opacity: 0.4; transform-origin: 50% 0%; }
+      #elnino { position: absolute; left: 610px; top: 150px; width: 380px; height: 76px; border-radius: 38px; background: var(--red);
+        color: #fff; font-weight: 900; font-size: 38px; letter-spacing: 2px; text-align: center; line-height: 76px; }
+
+      /* sul / norte */
+      .region { position: absolute; left: 90px; top: 170px; width: 560px; font-family: "Archivo Black"; font-size: 170px; line-height: 1; }
+      .region-sub { position: absolute; left: 96px; top: 360px; width: 560px; font-weight: 900; font-size: 52px; line-height: 1.1; text-transform: uppercase; color: var(--muted); }
+      .gauge { position: absolute; left: 700px; top: 470px; width: 220px; height: 620px; border-radius: 30px; border: 6px solid var(--muted);
+        overflow: hidden; background: rgba(255,255,255,0.04); }
+      .gauge .fill { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #4f9ad8, #1f4f86);
+        transform-origin: 50% 100%; }
+      .gauge-lb { position: absolute; left: 640px; top: 410px; width: 340px; text-align: center; font-weight: 700; font-size: 28px;
+        letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+      .gauge-tag { position: absolute; left: 96px; width: 560px; height: 90px; border-radius: 20px; font-weight: 900; font-size: 44px;
+        line-height: 90px; text-align: center; text-transform: uppercase; }
+      .drop { position: absolute; width: 4px; border-radius: 2px; background: #9cc8f2; }
+      #rain { position: absolute; inset: 0; }
+      #stamp { position: absolute; left: 90px; top: 700px; width: 900px; height: 170px; border: 10px solid var(--red); border-radius: 18px;
+        color: var(--red); background: rgba(11,20,40,0.85); font-family: "Archivo Black"; font-size: 64px; line-height: 1.1;
+        text-align: center; padding-top: 14px; }
+      #sun { position: absolute; left: 820px; top: 150px; width: 170px; height: 170px; border-radius: 85px; background: var(--amber);
+        box-shadow: 0 0 80px rgba(242,177,52,0.6); }
+      #hull { position: absolute; left: 20px; top: 0; width: 168px; height: 60px; }
+
+      /* painel superior sobre o vídeo */
+      .panel { position: absolute; left: 60px; top: 150px; width: 960px; border-radius: 36px; background: rgba(11,20,40,0.9);
+        border: 3px solid rgba(185,195,216,0.25); }
+      .step { position: absolute; top: 40px; width: 270px; height: 170px; border-radius: 24px; background: var(--navy2);
+        font-weight: 900; font-size: 38px; line-height: 1.1; text-align: center; text-transform: uppercase; padding: 30px 16px 0 16px; }
+      .step.hot { background: var(--amber); color: var(--ink); }
+      .arrow { position: absolute; top: 105px; width: 50px; height: 40px; font-weight: 900; font-size: 60px; line-height: 40px; color: var(--amber); text-align: center; }
+      .chip { position: absolute; top: 110px; width: 292px; height: 96px; border-radius: 48px; background: var(--navy2);
+        border: 3px solid var(--muted); font-weight: 900; font-size: 31px; line-height: 90px; text-align: center; }
+      .chip.hot { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+      .panel-t { position: absolute; left: 40px; top: 34px; width: 880px; font-weight: 700; font-size: 34px; letter-spacing: 1px; color: var(--muted); }
+
+      /* contrato */
+      #paper { position: absolute; left: 110px; top: 180px; width: 860px; height: 960px; background: var(--paper); border-radius: 10px;
+        box-shadow: 0 40px 90px rgba(0,0,0,0.5); color: #1b2333; }
+      #paper h2 { position: absolute; left: 70px; top: 60px; width: 720px; font-family: "EB Garamond"; font-weight: 700; font-size: 70px; letter-spacing: 6px; }
+      .pline { position: absolute; left: 70px; height: 14px; border-radius: 7px; background: #d6cfbf; }
+      .clause { position: absolute; left: 50px; width: 760px; height: 92px; }
+      .clause .mk { position: absolute; left: 0; top: 6px; width: 760px; height: 80px; background: var(--amber); border-radius: 8px; transform-origin: 0% 50%; }
+      .clause .tx { position: absolute; left: 22px; top: 14px; width: 720px; font-weight: 900; font-size: 46px; line-height: 64px; }
+      .clause .no { color: #6a6455; font-weight: 700; }
+
+      /* pós / cta */
+      #pos-kicker { position: absolute; left: 40px; top: 36px; width: 880px; font-weight: 700; font-size: 28px; letter-spacing: 5px; color: var(--amber); }
+      #pos-title { position: absolute; left: 40px; top: 84px; width: 880px; font-weight: 900; font-size: 54px; line-height: 1.1; }
+      #pos-brand { position: absolute; left: 40px; top: 226px; width: 880px; font-family: "EB Garamond"; font-weight: 700; font-size: 44px; letter-spacing: 10px; color: var(--muted); }
+      #cta-pill { position: absolute; left: 180px; top: 470px; width: 720px; height: 96px; border-radius: 48px; background: var(--amber);
+        color: var(--ink); font-weight: 900; font-size: 38px; line-height: 96px; text-align: center; text-transform: uppercase; }
+      #end-brand { position: absolute; left: 0; top: 700px; width: 1080px; text-align: center; font-family: "EB Garamond"; font-weight: 700;
+        font-size: 140px; letter-spacing: 18px; }
+      #end-sub { position: absolute; left: 120px; top: 900px; width: 840px; text-align: center; font-weight: 700; font-size: 40px; line-height: 1.25; color: var(--muted); }
+      #end-pill { position: absolute; left: 180px; top: 1060px; width: 720px; height: 100px; border-radius: 50px; background: var(--amber);
+        color: var(--ink); font-weight: 900; font-size: 40px; line-height: 100px; text-align: center; text-transform: uppercase; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-width="1080" data-height="1920">
+      <div class="full" style="background: var(--ink)"></div>
+
+      <!-- A-ROLL (já cortado: pausas, repetições e desvios removidos) -->
+      <div id="cam">
+        <video id="a-roll" class="clip" src="assets/aroll.mp4" playsinline data-start="0" data-duration="{{VIDEO_END}}"
+          data-track-index="0" data-has-audio="true" data-volume="1"></video>
+      </div>
+
+      <!-- HOOK 0–5.2 -->
+      <div id="hook" class="clip full" data-start="0" data-duration="5.2" data-track-index="2">
+        <div class="topshade" id="hook-shade"></div>
+        <div id="hook-tag">PREVISÃO</div>
+        <div id="hook-num">95%</div>
+        <div id="hook-sub">de chance de El Niño muito forte</div>
+      </div>
+
+      <!-- B-ROLL: navio chegando ao porto -->
+      <div id="ship" class="clip full" data-start="6.55" data-duration="1.79" data-track-index="3">
+        <div class="bg" id="ship-bg"></div>
+        <div id="sea"></div>
+        <div id="quay"></div>
+        <div class="crane" style="left: 900px"></div>
+        <div class="crane-arm" style="left: 700px"></div>
+        <div id="shipwrap">
+          <svg width="700" height="260" viewBox="0 0 700 260">
+            <rect x="120" y="60" width="90" height="70" fill="#e5533d" />
+            <rect x="215" y="60" width="90" height="70" fill="#f2b134" />
+            <rect x="310" y="60" width="90" height="70" fill="#4f9ad8" />
+            <rect x="405" y="60" width="90" height="70" fill="#e5533d" />
+            <rect x="520" y="10" width="70" height="120" fill="#f7f4ec" />
+            <path d="M40 130 L660 130 L600 230 L90 230 Z" fill="#182c56" stroke="#b9c3d8" stroke-width="6" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- B-ROLL: cadeia logística 12.6–19.95 -->
+      <div id="chain" class="clip full" data-start="12.6" data-duration="7.35" data-track-index="3">
+        <div class="bg"></div>
+        <div class="grid"></div>
+        <div class="kicker" id="chain-k">Antes do navio</div>
+        <div class="title" id="chain-t" style="width: 520px">a carga passa por:</div>
+        <div id="elnino">EL NIÑO</div>
+        <div id="chain-line"></div>
+        <div class="node" id="n0" style="top: 360px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="2" y="16" width="34" height="24" fill="#f7f4ec"/><path d="M36 22 H48 L56 32 V40 H36 Z" fill="#f2b134"/><circle cx="14" cy="46" r="7" fill="#f7f4ec"/><circle cx="44" cy="46" r="7" fill="#f7f4ec"/></svg></div><div class="lb">Rodovia</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n1" style="top: 480px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="8" y="6" width="44" height="38" rx="8" fill="#f7f4ec"/><rect x="14" y="13" width="14" height="12" fill="#182c56"/><rect x="32" y="13" width="14" height="12" fill="#182c56"/><path d="M10 54 L18 44 M50 54 L42 44" stroke="#f2b134" stroke-width="5"/></svg></div><div class="lb">Ferrovia</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n2" style="top: 600px"><div class="ic"><svg viewBox="0 0 60 60"><path d="M4 20 Q14 12 24 20 T44 20 T60 20 M4 34 Q14 26 24 34 T44 34 T60 34 M4 48 Q14 40 24 48 T44 48 T60 48" stroke="#4f9ad8" stroke-width="5" fill="none"/></svg></div><div class="lb">Rios</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n3" style="top: 720px"><div class="ic"><svg viewBox="0 0 60 60"><path d="M4 26 L30 8 L56 26 V54 H4 Z" fill="#f7f4ec"/><rect x="20" y="32" width="20" height="22" fill="#182c56"/></svg></div><div class="lb">Armazéns</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n4" style="top: 840px"><div class="ic"><svg viewBox="0 0 60 60"><rect x="12" y="6" width="6" height="50" fill="#f2b134"/><rect x="12" y="6" width="44" height="6" fill="#f2b134"/><path d="M48 12 V30" stroke="#f7f4ec" stroke-width="3"/><rect x="40" y="30" width="16" height="12" fill="#e5533d"/><rect x="2" y="52" width="56" height="6" fill="#f7f4ec"/></svg></div><div class="lb">Terminais</div><div class="warn">!</div><div class="ring"></div></div>
+        <div class="node" id="n5" style="top: 980px"><div class="ic" style="background: var(--amber); border-color: var(--amber)"><svg viewBox="0 0 60 60"><rect x="18" y="14" width="10" height="12" fill="#0b1428"/><rect x="30" y="14" width="10" height="12" fill="#0b1428"/><path d="M4 30 H56 L48 48 H12 Z" fill="#0b1428"/></svg></div><div class="lb" style="color: var(--amber)">Navio</div></div>
+      </div>
+
+      <!-- B-ROLL: SUL 21.0–24.9 -->
+      <div id="sul" class="clip full" data-start="21.0" data-duration="3.9" data-track-index="3">
+        <div class="bg"></div>
+        <div id="rain">{{RAIN}}</div>
+        <div class="region" id="sul-t">SUL</div>
+        <div class="region-sub" id="sul-s">chuva excessiva</div>
+        <div class="gauge-lb">nível dos rios</div>
+        <div class="gauge"><div class="fill" id="sul-fill"></div></div>
+        <div class="gauge-tag" id="sul-tag" style="top: 560px; background: #4f9ad8; color: var(--ink)">▲ cheias</div>
+        <div id="stamp">OPERAÇÃO INTERROMPIDA</div>
+      </div>
+
+      <!-- B-ROLL: NORTE 27.25–31.15 -->
+      <div id="norte" class="clip full" data-start="27.25" data-duration="3.9" data-track-index="3">
+        <div class="bg"></div>
+        <div id="sun"></div>
+        <div class="region" id="norte-t">NORTE</div>
+        <div class="region-sub" id="norte-s">menos chuva</div>
+        <div class="gauge-lb">nível dos rios</div>
+        <div class="gauge"><div class="fill" id="norte-fill"></div>
+          <div id="hullwrap" style="position: absolute; left: 0; top: 0; width: 220px; height: 620px">
+            <svg id="hull" viewBox="0 0 168 60"><path d="M0 10 H168 L148 56 H20 Z" fill="#f2b134"/></svg>
+          </div>
+        </div>
+        <div class="gauge-tag" id="norte-tag" style="top: 560px; background: var(--red); color: #fff">▼ rios rasos</div>
+        <div class="gauge-tag" id="norte-tag2" style="top: 690px; width: 560px; background: var(--amber); color: var(--ink); font-size: 36px">navegação limitada</div>
+      </div>
+
+      <!-- PAINEL: atraso → espera → custo -->
+      <div id="cost" class="clip full" data-start="34.1" data-duration="4.68" data-track-index="4">
+        <div class="panel" id="cost-p" style="height: 250px">
+          <div class="step" id="st0" style="left: 30px">Carga atrasa</div>
+          <div class="arrow" id="ar0" style="left: 305px">→</div>
+          <div class="step" id="st1" style="left: 345px">Navio espera</div>
+          <div class="arrow" id="ar1" style="left: 620px">→</div>
+          <div class="step hot" id="st2" style="left: 660px">$ Custo</div>
+        </div>
+      </div>
+
+      <!-- B-ROLL: contrato 39.85–45.1 -->
+      <div id="contrato" class="clip full" data-start="39.85" data-duration="5.25" data-track-index="3">
+        <div class="bg"></div>
+        <div class="grid"></div>
+        <div id="paper">
+          <h2>CONTRATO</h2>
+          <div class="pline" style="top: 170px; width: 640px"></div>
+          <div class="pline" style="top: 200px; width: 560px"></div>
+          <div class="clause" id="cl0" style="top: 250px"><div class="mk"></div><div class="tx"><span class="no">§1</span> Laytime</div></div>
+          <div class="clause" id="cl1" style="top: 360px"><div class="mk"></div><div class="tx"><span class="no">§2</span> Demurrage</div></div>
+          <div class="clause" id="cl2" style="top: 470px"><div class="mk"></div><div class="tx"><span class="no">§3</span> Seguro</div></div>
+          <div class="clause" id="cl3" style="top: 580px"><div class="mk"></div><div class="tx"><span class="no">§4</span> Resp. contratual</div></div>
+          <div class="clause" id="cl4" style="top: 690px"><div class="mk" style="background: var(--red)"></div><div class="tx"><span class="no">§5</span> Força maior</div></div>
+          <div class="pline" style="top: 830px; width: 600px"></div>
+          <div class="pline" style="top: 860px; width: 480px"></div>
+        </div>
+      </div>
+
+      <!-- PAINEL: riscos -->
+      <div id="risk" class="clip full" data-start="45.2" data-duration="4.48" data-track-index="4">
+        <div class="panel" id="risk-p" style="height: 240px">
+          <div class="panel-t">El Niño também é risco:</div>
+          <div class="chip" id="ch0" style="left: 26px">OPERACIONAL</div>
+          <div class="chip" id="ch1" style="left: 334px">FINANCEIRO</div>
+          <div class="chip hot" id="ch2" style="left: 642px">JURÍDICO</div>
+        </div>
+      </div>
+
+      <!-- PAINEL: pós + CTA -->
+      <div id="pos" class="clip full" data-start="52.6" data-duration="6.39" data-track-index="4">
+        <div class="panel" id="pos-p" style="height: 296px">
+          <div id="pos-kicker">PÓS-GRADUAÇÃO</div>
+          <div id="pos-title">Logística Portuária e Direito Marítimo</div>
+          <div id="pos-brand">NAVIGARE</div>
+        </div>
+        <div id="cta-pill">Conheça a próxima turma</div>
+      </div>
+
+      <!-- END CARD -->
+      <div id="end" class="clip full" data-start="58.95" data-duration="0.95" data-track-index="5">
+        <div class="bg"></div>
+        <div id="end-brand">NAVIGARE</div>
+        <div id="end-sub">Pós-graduação em Logística Portuária e Direito Marítimo</div>
+        <div id="end-pill">Conheça a próxima turma</div>
+      </div>
+
+      <!-- LEGENDAS (blocos curtos, palavra ativa animada) -->
+      {{CAPTIONS}}
+
+      <!-- SFX discretos -->
+      <audio id="sfx-thud1" src="assets/thud.wav" data-start="0.2" data-duration="0.5" data-track-index="20" data-volume="0.55"></audio>
+      <audio id="sfx-wh1" src="assets/whoosh.wav" data-start="6.35" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-wh2" src="assets/whoosh.wav" data-start="12.4" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-t1" src="assets/tick.wav" data-start="13.4" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t2" src="assets/tick.wav" data-start="14.14" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t3" src="assets/tick.wav" data-start="14.88" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t4" src="assets/tick.wav" data-start="15.32" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t5" src="assets/tick.wav" data-start="16.06" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-thud2" src="assets/thud.wav" data-start="19.3" data-duration="0.5" data-track-index="20" data-volume="0.45"></audio>
+      <audio id="sfx-wh3" src="assets/whoosh.wav" data-start="20.8" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-thud3" src="assets/thud.wav" data-start="23.6" data-duration="0.5" data-track-index="20" data-volume="0.5"></audio>
+      <audio id="sfx-wh4" src="assets/whoosh.wav" data-start="27.05" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-t6" src="assets/tick.wav" data-start="34.3" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t7" src="assets/tick.wav" data-start="36.62" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-t8" src="assets/tick.wav" data-start="38.12" data-duration="0.09" data-track-index="22" data-volume="0.35"></audio>
+      <audio id="sfx-wh5" src="assets/whoosh.wav" data-start="39.65" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+      <audio id="sfx-thud4" src="assets/thud.wav" data-start="48.98" data-duration="0.5" data-track-index="20" data-volume="0.45"></audio>
+      <audio id="sfx-wh6" src="assets/whoosh.wav" data-start="58.75" data-duration="0.6" data-track-index="21" data-volume="0.3"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- câmera: punch-in/out a cada corte + push lento ----
+      {{CAM_JS}}
+
+      // ---- hook ----
+      const counter = { v: 0 };
+      tl.fromTo("#hook-num", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.15);
+      tl.fromTo(counter, { v: 0 }, { v: 95, duration: 0.45, ease: "power3.out",
+        onUpdate: () => { document.getElementById("hook-num").textContent = Math.round(counter.v) + "%"; } }, 0.15);
+      tl.fromTo("#hook-tag", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+      tl.fromTo("#hook-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 2.05);
+      tl.to("#hook-num", { scale: 1.06, duration: 4.4, ease: "none" }, 0.6);
+      tl.to(["#hook-num", "#hook-sub", "#hook-tag", "#hook-shade"], { opacity: 0, duration: 0.2 }, 4.95);
+
+      // ---- navio ----
+      tl.fromTo("#shipwrap", { x: -620 }, { x: 70, duration: 1.7, ease: "power2.out" }, 6.55);
+      tl.fromTo("#ship-bg", { scale: 1.1 }, { scale: 1, duration: 1.8, ease: "none" }, 6.55);
+
+      // ---- cadeia ----
+      tl.fromTo(["#chain-k", "#chain-t"], { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, stagger: 0.08, ease: "power3.out" }, 12.6);
+      tl.fromTo("#chain-line", { scaleY: 0 }, { scaleY: 1, duration: 3.4, ease: "none" }, 13.3);
+      [13.40, 14.14, 14.88, 15.32, 16.06, 16.5].forEach((t, i) => {
+        tl.fromTo("#n" + i, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "back.out(1.8)" }, t - 0.05);
+      });
+      tl.fromTo("#elnino", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.5)" }, 17.15);
+      tl.set(".node .warn, .node .ring", { opacity: 0, scale: 0.4 }, 12.6);
+      tl.to(".node .warn", { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, 19.3);
+      tl.to(".node .ring", { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 19.3);
+      tl.fromTo(["#n0", "#n1", "#n2", "#n3", "#n4"], { x: 0 }, { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, 19.3);
+
+      // ---- sul ----
+      tl.fromTo("#sul-t", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 21.0);
+      tl.fromTo("#sul-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 21.1);
+      tl.fromTo(".drop", { y: 0 }, { y: 420, duration: 0.55, ease: "none", repeat: 6 }, 21.0);
+      tl.fromTo("#sul-fill", { scaleY: 0.25 }, { scaleY: 0.92, duration: 2.0, ease: "power1.inOut" }, 21.1);
+      tl.fromTo("#sul-tag", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 22.55);
+      tl.fromTo("#stamp", { scale: 1.8, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: -6, duration: 0.22, ease: "power4.in" }, 23.42);
+
+      // ---- norte ----
+      tl.fromTo("#norte-t", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 27.25);
+      tl.fromTo("#norte-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 27.35);
+      tl.fromTo("#sun", { scale: 0.7 }, { scale: 1.05, duration: 3.9, ease: "sine.out" }, 27.25);
+      tl.fromTo("#norte-fill", { scaleY: 0.78 }, { scaleY: 0.16, duration: 2.1, ease: "power1.inOut" }, 27.6);
+      tl.fromTo("#hullwrap", { y: 620 * 0.22 - 50 }, { y: 620 * 0.84 - 50, duration: 2.1, ease: "power1.inOut" }, 27.6);
+      tl.fromTo("#norte-tag", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 29.1);
+      tl.fromTo("#norte-tag2", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 29.95);
+
+      // ---- custo ----
+      tl.fromTo("#cost-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 34.1);
+      tl.set(["#st1", "#st2", "#ar0", "#ar1"], { opacity: 0 }, 34.1);
+      tl.fromTo("#st0", { scale: 0.7 }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 34.3);
+      tl.fromTo(["#ar0", "#st1"], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.05, ease: "power3.out" }, 36.6);
+      tl.fromTo(["#ar1", "#st2"], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.05, ease: "power3.out" }, 38.05);
+      tl.fromTo("#st2", { scale: 1 }, { scale: 1.1, duration: 0.15, yoyo: true, repeat: 1 }, 38.35);
+
+      // ---- contrato ----
+      tl.fromTo("#paper", { y: 120, rotation: 4, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 0.4, ease: "power3.out" }, 39.85);
+      [39.94, 40.64, 41.48, 42.06, 44.26].forEach((t, i) => {
+        tl.fromTo("#cl" + i + " .mk", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, t);
+      });
+      tl.fromTo("#paper", { scale: 1 }, { scale: 1.05, duration: 4.8, ease: "none" }, 40.25);
+
+      // ---- riscos ----
+      tl.fromTo("#risk-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 45.2);
+      [47.08, 48.12, 48.98].forEach((t, i) => {
+        tl.fromTo("#ch" + i, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "back.out(2.5)" }, t - 0.05);
+      });
+
+      // ---- pós + cta ----
+      tl.fromTo("#pos-p", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 52.6);
+      tl.fromTo("#pos-title", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 53.5);
+      tl.fromTo("#pos-brand", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 55.6);
+      tl.fromTo("#cta-pill", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, 57.6);
+
+      // ---- end ----
+      tl.fromTo("#end-brand", { scale: 1.15, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 58.95);
+      tl.fromTo(["#end-sub", "#end-pill"], { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: "power3.out" }, 59.1);
+
+      // ---- legendas ----
+      {{CAP_JS}}
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

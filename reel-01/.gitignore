@@ -1,0 +1,10 @@
+node_modules/
+.hyperframes/
+source.mp4
+assets/aroll.mp4
+render.log
+err.log
+tr.json
+renders/*.tmp*
+renders/*
+!renders/reel-elnino-portos.mp4

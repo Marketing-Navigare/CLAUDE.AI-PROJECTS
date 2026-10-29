@@ -113,7 +113,8 @@ corrected anything at the gate, carry it into every one.
 
 ### Step 7: Report
 
-One line per video: the hook, the multiple, the template name, the file path. For a batch,
+One line per video: the hook, the multiple, the template name, the best Navigare pauta, the
+file path. For a batch,
 end with a **pattern** section: the hook types, levers and beat shapes that repeat, with counts
 and the number of videos. Five videos from one creator is a pattern for that creator, not a law.
 
@@ -124,7 +125,8 @@ Then offer the next step in one line: "Want me to fill this template in with you
 - Watch every video. No frames, no breakdown.
 - Numbers come from `video.json`. Never round, guess or backfill a missing figure.
 - Quote word for word. A hook is never paraphrased.
-- The template works for anyone. The user's own topic and voice go in when they use it.
+- The template works for anyone. Navigare's own topics go only in the "Como replicar na
+  Navigare" section.
 - One video at a time, in full. A batch is many single breakdowns, never a shallow survey.
 
 ## Troubleshooting

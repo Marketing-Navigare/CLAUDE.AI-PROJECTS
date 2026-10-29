@@ -36,6 +36,7 @@ format: <Format>
 hook_type: <Hook type>
 template: "<Template name>"
 feel: "<section 10 one-liner>"
+replicate: "<one-line version of the Como replicar section: the best pauta + who films it + CTA>"
 ---
 
 # <Template name>: @<handle>
@@ -52,6 +53,9 @@ feel: "<section 10 one-liner>"
 <one paragraph>
 
 **Whole video in one line:** <framework mad-lib>
+
+## Como replicar na Navigare
+<see "Como replicar na Navigare" below>
 
 ## Beat map
 <beat map table>
@@ -145,6 +149,35 @@ The whole-video line joins the beats with `→`:
 
 ---
 
+## Como replicar na Navigare
+
+The one section written for Navigare's own marketing, so it is the only place Navigare
+specifics go (the template above stays generic). Navigare sells pós-graduação courses and
+workshops to health and aesthetics professionals (estética avançada, toxina botulínica,
+bioestimuladores, harmonização, and other specialisations) in several Brazilian cities.
+If the `copy-navigare` skill is available, follow its voice. Write it in Brazilian
+Portuguese, in this order:
+
+1. **Vale a pena replicar?** One or two sentences: does this structure fit Navigare's
+   audience and goals, and which funnel stage it serves (alcance / autoridade / captação de
+   leads / inscrição). If it doesn't fit, say why and stop the section there.
+2. **3 pautas prontas.** Three concrete topics for Navigare, each with the template's hook
+   filled in word for word (in Portuguese, ready to say on camera) and one line on the payoff.
+   Use real course themes, never invented facts, numbers, results or testimonials; put
+   [brackets] where a real figure or case has to come from the team.
+3. **Roteiro preenchido.** The best of the three, written out beat by beat on the template's
+   beats, with the same timings as the beat map.
+4. **Quem grava e como.** Who should be on camera (professor/a, coordenador/a, aluna/o,
+   especialista convidado/a), where to film, and what to copy from the Feel and Visual
+   sections (pace, cut rate, text cards, B-roll to shoot).
+5. **CTA para a Navigare.** The ask adapted to Navigare's goal for this pauta (comment a
+   keyword for a DM, link na bio, WhatsApp, inscrição no curso/workshop), and the keyword.
+6. **Cuidados.** What to avoid for this audience: promises of results, before/after photos
+   and other claims health-profession councils restrict in advertising; anything in the
+   original that doesn't transfer to an education brand.
+
+---
+
 ## Edge cases
 
 - **Song or trend-sound audio.** Lyrics aren't the creator's words. The transcript keeps only
@@ -180,3 +213,5 @@ The whole-video line joins the beats with `→`:
 - [ ] Feel line has a w/s number and a cut-rate number
 - [ ] Numbers match `video.json`; nulls written as "not available"
 - [ ] No song lyrics or transcript filler presented as the creator's words
+- [ ] Como replicar na Navigare has 3 pautas with hooks written out, a filled roteiro and a
+      CTA, and invents no figures, results or testimonials

@@ -53,6 +53,7 @@ Map the front matter to these property names:
 | Feel | Ritmo |
 | Psychology | Gatilhos psicológicos |
 | Why It Won | Por que funcionou |
+| replicate | Como replicar na Navigare |
 
 Option translations:
 

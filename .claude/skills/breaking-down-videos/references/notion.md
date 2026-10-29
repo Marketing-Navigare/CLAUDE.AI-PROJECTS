@@ -30,8 +30,10 @@ find it without asking.
 
 ## This library (Navigare): Portuguese
 
-The library already exists: **Biblioteca de Vídeos Virais** (URL in `.env` as
-`NOTION_LIBRARY_URL`). Its properties and options are in Portuguese. Write every
+The library already exists: **Biblioteca de Vídeos Virais**
+(https://app.notion.com/p/b024531fde3648d1a741b19040be7340, data source
+`collection://159ee215-bc3d-4fcc-9316-0249c5413452`). Use these when `.env` has no
+`NOTION_LIBRARY_URL`. Its properties and options are in Portuguese. Write every
 breakdown in Brazilian Portuguese (the markdown file and the Notion page body); keep the
 hook and any quoted lines word for word in the video's original language.
 
@@ -84,3 +86,28 @@ Option translations:
 
 If the Notion tools aren't available, say so in one line and carry on: the markdown file is
 the breakdown.
+
+## Queue mode (Fila automática)
+
+Team members send Reel/TikTok links to the Navigare WhatsApp number; a Make scenario
+creates a row with `Status = Na fila`, `Link`, `Salvo por`, `Data salvo` and
+`Nota de quem salvou`, and a placeholder `Gancho`. When asked to "process the queue"
+(or by the scheduled run):
+
+1. Query the data source for `Status = "Na fila"`, oldest `Data salvo` first. Take at most
+   10 per run unless told otherwise (each video costs 4–14 Scrape Creators credits).
+2. For each row, one at a time and to full depth:
+   - set `Status = Analisando`;
+   - run SKILL.md Steps 1–5 on its `Link` (no batch gate: the run is unattended);
+   - read `Nota de quem salvou` before writing "Como replicar na Navigare" and use it
+     (it often says which course or idea the person had in mind);
+   - update **that same page** (never create a second row): fill every property, replace
+     the placeholder `Gancho` with the real hook, replace the page body with the breakdown,
+     set `Curso relacionado` and suggest a `Prioridade` (Alta when the structure fits a
+     course that is currently selling), then `Status = Analisado`;
+   - on any failure (private/deleted post, carousel, download failed twice, slideshow) set
+     `Status = Erro` and write the reason in `Erro`. Move on to the next row.
+3. If Scrape Creators runs out of credits, stop, leave the remaining rows as `Na fila`,
+   and say so in the report.
+4. Report: one line per row (hook, template, best Navigare pauta, Notion link), then the
+   errors, then credits used.

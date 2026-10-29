@@ -120,6 +120,11 @@ and the number of videos. Five videos from one creator is a pattern for that cre
 
 Then offer the next step in one line: "Want me to fill this template in with your topic?"
 
+## Queue mode
+
+"Process the queue" / "processe a fila" means: follow the "Queue mode" section of
+`SKILL/references/notion.md` instead of waiting for a link.
+
 ## Rules
 
 - Watch every video. No frames, no breakdown.

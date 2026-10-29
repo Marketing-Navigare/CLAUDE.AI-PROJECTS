@@ -28,6 +28,49 @@ Ask the user which Notion page the library should live under. Then create a data
 Save the database's URL to the skill's `.env` as `NOTION_LIBRARY_URL=<url>` so later runs
 find it without asking.
 
+## This library (Navigare): Portuguese
+
+The library already exists: **Biblioteca de Vídeos Virais** (URL in `.env` as
+`NOTION_LIBRARY_URL`). Its properties and options are in Portuguese. Write every
+breakdown in Brazilian Portuguese (the markdown file and the Notion page body); keep the
+hook and any quoted lines word for word in the video's original language.
+
+Map the front matter to these property names:
+
+| Spec field | Notion property |
+|---|---|
+| Hook | Gancho (title) |
+| Creator | Criador |
+| Link | Link |
+| Plays / Likes / Comments / Followers | Visualizações / Curtidas / Comentários / Seguidores |
+| Outlier x | Acima da média (x) |
+| Duration (s) | Duração (s) |
+| Posted | Publicado em |
+| Format | Formato |
+| Hook Type | Tipo de gancho |
+| Template | Template |
+| Framework | Estrutura |
+| Feel | Ritmo |
+| Psychology | Gatilhos psicológicos |
+| Why It Won | Por que funcionou |
+
+Option translations:
+
+- Formato: Talking Head → Rosto na câmera · Silent Text Overlay → Texto sem fala ·
+  Voiceover B-Roll → Narração + B-roll · Vlog → Vlog · Skit → Esquete ·
+  Demo / Screen → Demonstração / Tela · Listicle → Lista · Rant → Desabafo ·
+  Whiteboard → Quadro branco · Ranking → Ranking · Green Screen → Fundo verde ·
+  React / Duet → React / Dueto · Other → Outro
+- Tipo de gancho: Prediction → Previsão · Experiment → Experimento · How-to → Como fazer ·
+  Secret → Segredo · Contrarian → Contrário · Comparison → Comparação · Question → Pergunta ·
+  Story → História · POV / Skit → POV / Esquete
+- Gatilhos psicológicos: Pattern Interrupt → Quebra de padrão · Curiosity Gap → Lacuna de
+  curiosidade · Loss Framing → Medo de perder · Identity Callout → Chamada de identidade ·
+  Open Loop → Loop aberto · Re-hook → Re-gancho · Variable Reward → Recompensa variável ·
+  Cognitive Ease → Facilidade cognitiva · Vulnerability → Vulnerabilidade · Proof → Prova ·
+  Identity Alignment → Alinhamento de identidade · Reciprocity → Reciprocidade ·
+  Single Ask → Pedido único · Consistency → Consistência
+
 ## Every run
 
 1. Read `NOTION_LIBRARY_URL` from `.env`. Fetch the database to confirm the properties.
